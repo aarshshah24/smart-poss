@@ -1,0 +1,82 @@
+body {
+    background: #212529;
+    color: #fff;
+}
+
+/* Navbar */
+.outlet-navbar {
+    height: 70px;
+    background: #000;
+    border-bottom: 3px solid #ff7733;
+}
+
+/* Sidebar */
+.outlet-sidebar {
+    min-height: calc(100vh - 70px);
+    background: #111;
+}
+
+.outlet-sidebar .nav-link {
+    color: #adb5bd;
+    padding: 14px 20px;
+}
+
+.outlet-sidebar .nav-link i {
+    margin-right: 8px;
+}
+
+.outlet-sidebar .nav-link:hover,
+.outlet-sidebar .nav-link.active {
+    background: #ff7733;
+    color: #fff;
+}
+
+/* Main */
+.outlet-main {
+    padding: 30px;
+}
+
+/* Stat Boxes */
+.stat-box {
+    background: #343a40;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.stat-box h6 {
+    opacity: 0.8;
+}
+
+.stat-box h2 {
+    color: #ff7733;
+    font-weight: 700;
+}
+
+/* Action Cards */
+.action-card {
+    background: #ff7733;
+    color: #212529;
+    border-radius: 18px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.action-card i {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.action-card:hover {
+    transform: translateY(-8px);
+}
+
+/* Orders Table */
+.outlet-card {
+    background: #343a40;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
