@@ -10,6 +10,10 @@ body {
     border-bottom: 3px solid #ff7733;
 }
 
+.outlet-title {
+    color: #adb5bd !important;
+}
+
 /* Sidebar */
 .outlet-sidebar {
     min-height: calc(100vh - 70px);
