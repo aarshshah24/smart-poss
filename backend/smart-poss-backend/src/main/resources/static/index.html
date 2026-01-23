@@ -186,37 +186,37 @@
           Get in touch with our team to verify..
         </p>
 
-        <form id="demoForm" action="http://localhost:8080/api/outlets/register" method="POST">
+        <form id="outletForm" >
 
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label">Owner Name*</label>
-              <input type="text" class="form-control" name="ownerName" required>
+              <input type="text" class="form-control" id="ownerName" name="ownerName" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Email*</label>
-              <input type="email" class="form-control" name="email" required>
+              <input type="email" class="form-control" id="email" name="email" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Phone Number*</label>
-              <input type="tel" class="form-control" name="phoneNumber" required>
+              <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">City*</label>
-              <input type="text" class="form-control" name="city" required>
+              <input type="text" class="form-control" id="city" name="city" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Outlet Name*</label>
-              <input type="text" class="form-control" name="outletName" required>
+              <input type="text" class="form-control" id="outletName" name="outletName" required>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Outlet Type*</label>
-              <select class="form-select" name="outletType" required>
+              <select class="form-select" id="outletType" name="outletType" required>
                 <option value="">Select type</option>
                 <option>Food Court</option>
                 <option>Cafe</option>
@@ -325,5 +325,32 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <script src="api.js"></script>
+
+        <script>
+<!--            so which changes will be required in the code if i want to call other apis -->
+            document.getElementById("outletForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                const data = {
+                    ownerName: document.getElementById("ownerName").value,
+                    email: document.getElementById("email").value,
+                    phoneNumber: document.getElementById("phoneNumber").value,
+                    city: document.getElementById("city").value,
+                    outletName: document.getElementById("outletName").value,
+                    outletType: document.getElementById("outletType").value
+                };
+
+                postData("/outlets/register", data)
+                    .then(res => {
+                        alert("Outlet registered successfully");
+                        document.getElementById("outletForm").reset();
+                    })
+                    .catch(err => {
+                        alert("Something went wrong");
+                        console.error(err);
+                    });
+            });
+        </script>
 </body>
 </html>
