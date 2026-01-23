@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2f814b10-20b0-42a7-8e8c-58cf035d191f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/auth.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/outlet-dashboard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/outlet-dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Business Plan-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Chef-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Connecting teams-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Contact us-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Dropdown menu-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Money stress-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Order food-pana.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Supermarket workers-bro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/EmailAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/EmailAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/OutletNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/OutletNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/test/java/com/smartpos/backend/SmartPossBackendApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="ms-17" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="38Sh3Ysd6OxJ3GZa8W91Cus1ksh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.SmartPossBackendApplicationTests.executor": "Run",
+    "JavaScript Debug.admin-dashboard.html.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.SmartPossBackendApplication.executor": "Run",
+    "git-widget-placeholder": "backend",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/rohit/IdeaProjects/smart-poss/backend/smart-poss-backend/src/main/resources/static",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/html" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SmartPossBackendApplication">
+    <configuration name="SmartPossBackendApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="smart-poss-backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.smartpos.backend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.smartpos.backend" />
+      <option name="MAIN_CLASS_NAME" value="com.smartpos.backend.SmartPossBackendApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="admin-dashboard.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/smart-poss/frontend/admin-dashboard.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="SmartPossBackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="ms-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="smart-poss-backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.smartpos.backend.SmartPossBackendApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.admin-dashboard.html" />
+      <item itemvalue="JUnit.SmartPossBackendApplicationTests" />
+      <item itemvalue="Spring Boot.SmartPossBackendApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SmartPossBackendApplicationTests" />
+        <item itemvalue="JavaScript Debug.admin-dashboard.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f814b10-20b0-42a7-8e8c-58cf035d191f" name="Changes" comment="" />
+      <created>1768797866251</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768797866251</updated>
+      <workItem from="1768797870335" duration="712000" />
+      <workItem from="1768798684332" duration="875000" />
+      <workItem from="1768866241644" duration="2801000" />
+      <workItem from="1768890518854" duration="11000" />
+      <workItem from="1768954446456" duration="5814000" />
+      <workItem from="1769040741133" duration="1174000" />
+      <workItem from="1769041978569" duration="229000" />
+      <workItem from="1769048145102" duration="30000" />
+      <workItem from="1769069124567" duration="563000" />
+      <workItem from="1769069705215" duration="8505000" />
+      <workItem from="1769126341875" duration="6283000" />
+      <workItem from="1769152598013" duration="9168000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

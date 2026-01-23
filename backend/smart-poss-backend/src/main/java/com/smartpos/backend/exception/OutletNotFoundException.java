@@ -1,4 +1,7 @@
 package  com.smartpos.backend.exception;
 
-public class OutletNotFoundException {
+public class OutletNotFoundException extends RuntimeException {
+    public OutletNotFoundException(String message) {
+        super(message);
+    }
 }
