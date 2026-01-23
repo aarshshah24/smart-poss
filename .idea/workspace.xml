@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f814b10-20b0-42a7-8e8c-58cf035d191f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/auth.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/outlet-dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/outlet-dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Business Plan-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Chef-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Connecting teams-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Contact us-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Dropdown menu-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Money stress-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Order food-pana.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/Supermarket workers-bro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/src/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/EmailAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/EmailAlreadyExistsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/OutletNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/exception/OutletNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/test/java/com/smartpos/backend/SmartPossBackendApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2f814b10-20b0-42a7-8e8c-58cf035d191f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -173,7 +143,7 @@
       <workItem from="1769069124567" duration="563000" />
       <workItem from="1769069705215" duration="8505000" />
       <workItem from="1769126341875" duration="6283000" />
-      <workItem from="1769152598013" duration="9168000" />
+      <workItem from="1769152598013" duration="9831000" />
     </task>
     <servers />
   </component>
