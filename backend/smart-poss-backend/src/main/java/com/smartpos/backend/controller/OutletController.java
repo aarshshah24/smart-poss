@@ -6,6 +6,7 @@ import com.smartpos.backend.service.OutletService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -20,6 +21,11 @@ public class OutletController {
     @PostMapping("/outlets/register")
     public OutletResponse registerOutlet(@RequestBody OutletRegisterRequest request){
         return outletService.registerOutlet(request);
+    }
+
+    @GetMapping("/admin/dashboard/summary")
+    public Map<String,Long> getDashboardSummary(){
+        return outletService.getDashboardSummary();
     }
 
     @GetMapping("/admin/outlets/pending")

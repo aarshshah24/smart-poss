@@ -10,7 +10,9 @@ import com.smartpos.backend.service.OutletService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -58,11 +60,19 @@ public class OutletServiceImpl implements OutletService {
     }
 
     public List<OutletResponse> getPendingOutlets(){
-        return outletRepository.findAll()
+        return outletRepository.findByStatus("PENDING")
                 .stream()
-                .filter(o -> "PENDING".equals(o.getStatus()))
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    public Map<String,Long> getDashboardSummary(){
+
+        Map<String,Long> data = new HashMap<>();
+        data.put("totalOutlets", outletRepository.count());
+        data.put("pendingOutlets",outletRepository.countByStatus("PENDING"));
+        data.put("approvedOutlets",outletRepository.countByStatus("APPROVED"));
+        return data;
     }
 
     public void approveOutlet(String outletId){

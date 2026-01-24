@@ -6,11 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="2f814b10-20b0-42a7-8e8c-58cf035d191f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/controller/OutletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/OutletService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/admin-dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/home/rohit/IdeaProjects/smart-poss" value="38Sh3Ysd6OxJ3GZa8W91Cus1ksh" />
+    </persistenceIdMap>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -35,7 +45,7 @@
     <option name="jreName" value="ms-17" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -45,32 +55,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.SmartPossBackendApplicationTests.executor": "Run",
-    "JavaScript Debug.admin-dashboard.html.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Spring Boot.SmartPossBackendApplication.executor": "Run",
-    "git-widget-placeholder": "backend",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/rohit/IdeaProjects/smart-poss/backend/smart-poss-backend/src/main/resources/static",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.SmartPossBackendApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.admin-dashboard.html.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SmartPossBackendApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rohit/IdeaProjects/smart-poss/backend/smart-poss-backend/src/main/resources/static&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static" />
@@ -146,6 +156,7 @@
       <workItem from="1769069705215" duration="8505000" />
       <workItem from="1769126341875" duration="6283000" />
       <workItem from="1769152598013" duration="10596000" />
+      <workItem from="1769236200182" duration="10752000" />
     </task>
     <servers />
   </component>

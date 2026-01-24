@@ -64,10 +64,39 @@
 
             <!-- STATS -->
             <div class="row g-3 mb-4">
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Total Outlets</h6><h2>120</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Pending Requests</h6><h2>18</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Active Users</h6><h2>356</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Revenue</h6><h2>₹ 2.4L</h2></div></div>
+
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h6>Total Outlets</h6>
+                        <h2 id="totalOutlets">120</h2>
+                        <!-- 🟨 ADDED -->
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h6>Pending Requests</h6>
+                        <h2 id="pendingOutlets">18</h2>
+                        <!-- 🟨 ADDED -->
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h6>Active Users</h6>
+                        <h2 id="activeUsers">356</h2>
+                        <!-- 🟨 ADDED -->
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h6>Revenue</h6>
+                        <h2 id="revenue">₹ 2.4L</h2>
+                        <!-- 🟨 ADDED -->
+                    </div>
+                </div>
+
             </div>
 
             <!-- TABLE -->
@@ -76,26 +105,29 @@
                 <div class="card-body table-responsive">
                     <table class="table table-dark table-hover align-middle">
                         <thead>
-                            <tr>
-                                <th>Owner</th>
-                                <th>Outlet</th>
-                                <th>City</th>
-                                <th>Contact</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Outlet</th>
+                            <th>City</th>
+                            <th>Contact</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Rahul Shah</td>
-                                <td>Food Hub</td>
-                                <td>Ahmedabad</td>
-                                <td>9876543210</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm">Approve</button>
-                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                </td>
-                            </tr>
+
+                        <tbody id="pendingOutletTable">
+                        <!-- 🟨 ADDED -->
+                        <tr>
+                            <td>Rahul Shah</td>
+                            <td>Food Hub</td>
+                            <td>Ahmedabad</td>
+                            <td>9876543210</td>
+                            <td>
+                                <button class="btn btn-success btn-sm">Approve</button>
+                                <button class="btn btn-danger btn-sm">Reject</button>
+                            </td>
+                        </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -105,5 +137,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 🟨 ADDED -->
+<script src="admin-dashboard.js"></script>
+
 </body>
 </html>
