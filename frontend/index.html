@@ -189,42 +189,54 @@
         <form id="demoForm" action="http://localhost:8080/api/outlets/register" method="POST">
 
           <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Owner Name*</label>
-              <input type="text" class="form-control" name="ownerName" required>
-            </div>
 
-            <div class="col-md-6">
-              <label class="form-label">Email*</label>
-              <input type="email" class="form-control" name="email" required>
-            </div>
+          <div class="col-md-6">
+            <label class="form-label">Owner Name*</label>
+            <input type="text" class="form-control" name="ownerName" required>
+          </div>
 
-            <div class="col-md-6">
-              <label class="form-label">Phone Number*</label>
-              <input type="tel" class="form-control" name="phoneNumber" minlength="10" maxlength="10" pattern="[0-9]{10}" required>
-            </div>
+          <div class="col-md-6">
+            <label class="form-label">Email*</label>
+            <input type="email" class="form-control" name="email" required>
+          </div>
 
-            <div class="col-md-6">
-              <label class="form-label">City*</label>
-              <input type="text" class="form-control" name="city" required>
-            </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone Number*</label>
+            <input type="tel" class="form-control" name="phoneNumber"
+                   minlength="10" maxlength="10" pattern="[0-9]{10}" required>
+          </div>
 
-            <div class="col-md-6">
-              <label class="form-label">Outlet Name*</label>
-              <input type="text" class="form-control" name="outletName" required>
-            </div>
+          <div class="col-md-6">
+            <label class="form-label">City*</label>
+            <input type="text" class="form-control" name="city" required>
+          </div>
 
-            <div class="col-md-6">
-              <label class="form-label">Outlet Type*</label>
-              <select class="form-select" name="outletType" required>
-                <option value="">Select type</option>
-                <option>Food Court</option>
-                <option>Cafe</option>
-                <option>QSR</option>
-                <option>Bakery</option>
-                <option>Cloud Kitchen</option>
-              </select>
-            </div>
+          <div class="col-md-6">
+            <label class="form-label">Outlet Name*</label>
+            <input type="text" class="form-control" name="outletName" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Outlet Type*</label>
+            <select class="form-select" name="outletType" required>
+              <option value="">Select type</option>
+              <option>Food Court</option>
+              <option>Cafe</option>
+              <option>QSR</option>
+              <option>Cloud Kitchen</option>
+            </select>
+          </div>
+
+          <!-- 🔐 Password Field (Added) -->
+          <div class="col-md-12">
+            <label class="form-label">Create Password*</label>
+            <input type="password" class="form-control" name="password" minlength="6" placeholder="Min 6 characters" required>
+
+            <!-- <span class="input-group-text" style="cursor:pointer" onclick="togglePassword()">
+              <i class="bi bi-eye" id="eyeIcon"></i>
+            </span> -->
+          </div>
+
           </div>
 
           <button type="submit" class="btn btn-danger submit-btn mt-4 px-4">
