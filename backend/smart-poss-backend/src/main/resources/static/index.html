@@ -229,7 +229,7 @@
             <!-- 🔐 Password Field (Added) -->
           <div class="col-md-12">
             <label class="form-label">Create Password*</label>
-            <input type="password" class="form-control" name="password" minlength="6" placeholder="Min 6 characters" required>
+            <input type="password" id="password" class="form-control" name="password" minlength="6" placeholder="Min 6 characters" required>
 
             <!-- <span class="input-group-text" style="cursor:pointer" onclick="togglePassword()">
               <i class="bi bi-eye" id="eyeIcon"></i>
@@ -240,6 +240,8 @@
           <button type="submit" class="btn btn-danger submit-btn mt-4 px-4">
             Submit
           </button>
+            <!-- 🟨 ADDED -->
+            <div id="formMessage" class="mt-3"></div>
 
         </form>
       </div>
@@ -338,7 +340,6 @@
         <script src="api.js"></script>
 
         <script>
-<!--            so which changes will be required in the code if i want to call other apis -->
             document.getElementById("outletForm").addEventListener("submit", function(e) {
                 e.preventDefault();
 
@@ -348,19 +349,29 @@
                     phoneNumber: document.getElementById("phoneNumber").value,
                     city: document.getElementById("city").value,
                     outletName: document.getElementById("outletName").value,
-                    outletType: document.getElementById("outletType").value
+                    outletType: document.getElementById("outletType").value,
+                    password: document.getElementById("password").value
                 };
+
+                const msg = document.getElementById("formMessage");
 
                 postData("/outlets/register", data)
                     .then(res => {
-                        alert("Outlet registered successfully");
+
+                        msg.innerHTML = "✅ Registration successful! Approval confirmation will be sent via email.";
+                        msg.style.color = "green";
+
                         document.getElementById("outletForm").reset();
                     })
                     .catch(err => {
-                        alert("Something went wrong");
+
+                        msg.innerHTML = err.message || "❌ Registration failed";
+                        msg.style.color = "red";
+
                         console.error(err);
                     });
             });
+
         </script>
 </body>
 </html>

@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d46336aa-d795-4096-8c06-a033fe32c3b3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/dto/OutletRegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/dto/OutletRegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/dto/OutletResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/dto/OutletResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/model/Outlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/model/Outlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/repository/OutletRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/java/com/smartpos/backend/service/impl/OutletServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/smart-poss-backend/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +24,13 @@
     <persistenceIdMap>
       <entry key="_/home/rohit/IdeaProjects/smart-poss" value="399CWDHW52fbbyoIS4o7KbefzZ2" />
     </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,24 +50,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Smart Tomcat.smartposs.executor": "Run",
-    "Spring Boot.SmartPossBackendApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/rohit/IdeaProjects/smart-poss",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Smart Tomcat.smartposs.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.SmartPossBackendApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rohit/IdeaProjects/smart-poss&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration name="SmartPossBackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="smart-poss-backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.smartpos.backend.SmartPossBackendApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -73,6 +97,10 @@
       <workItem from="1770112283186" duration="179000" />
       <workItem from="1770112482299" duration="402000" />
       <workItem from="1770112903943" duration="2489000" />
+      <workItem from="1770186645152" duration="238000" />
+      <workItem from="1770186910983" duration="1574000" />
+      <workItem from="1770188516347" duration="47000" />
+      <workItem from="1770200138139" duration="3732000" />
     </task>
     <servers />
   </component>
