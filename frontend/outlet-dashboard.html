@@ -105,7 +105,7 @@
             <div id="menuSection" class="d-none">
 
                 <div class="card outlet-card">
-                    <div class="card-header fw-bold">Update Menu</div>
+                    <div class="card-header fw-bold">Add Menu</div>
                     <div class="card-body">
 
                         <form>
@@ -151,9 +151,12 @@
 
 <script>
 function showSection(section) {
+
+    // Hide all sections
     document.getElementById("dashboardSection").classList.add("d-none");
     document.getElementById("menuSection").classList.add("d-none");
 
+    // Show selected section
     if (section === "dashboard") {
         document.getElementById("dashboardSection").classList.remove("d-none");
     }
@@ -161,6 +164,15 @@ function showSection(section) {
     if (section === "menu") {
         document.getElementById("menuSection").classList.remove("d-none");
     }
+
+    // ===== ACTIVE SIDEBAR FIX (DESKTOP + MOBILE) =====
+    document.querySelectorAll(".outlet-sidebar .nav-link, .offcanvas .nav-link").forEach(link => {
+        link.classList.remove("active");
+    });
+
+    document.querySelectorAll(`[onclick="showSection('${section}')"]`).forEach(link => {
+        link.classList.add("active");
+    });
 }
 </script>
 
