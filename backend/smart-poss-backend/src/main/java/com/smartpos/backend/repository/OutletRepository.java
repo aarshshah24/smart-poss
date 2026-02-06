@@ -10,4 +10,6 @@ public interface OutletRepository extends MongoRepository<Outlet, String> {
     Optional<Outlet> findByEmail(String email);
     List<Outlet> findByStatus(String status);
     long countByStatus(String status);
+    Optional<Outlet> findByPhoneNumber(Long phoneNumber);
+
 }

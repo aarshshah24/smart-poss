@@ -1,16 +1,2 @@
-# Maven
-target/
-
-# IntelliJ
 .idea/
 *.iml
-*.ipr
-*.iws
-
-# Logs
-*.log
-
-# OS
-.DS_Store
-Thumbs.db
-

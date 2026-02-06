@@ -4,9 +4,11 @@ import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
 import com.smartpos.backend.exception.EmailAlreadyExistsException;
 import com.smartpos.backend.exception.OutletNotFoundException;
+import com.smartpos.backend.exception.PhoneNumberAlreadyExistsException;
 import com.smartpos.backend.model.Outlet;
 import com.smartpos.backend.repository.OutletRepository;
 import com.smartpos.backend.service.OutletService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,15 +21,21 @@ import java.util.stream.Collectors;
 @Service
 public class OutletServiceImpl implements OutletService {
     private final OutletRepository outletRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public OutletServiceImpl(OutletRepository outletRepository) {
+    public OutletServiceImpl(OutletRepository outletRepository,BCryptPasswordEncoder passwordEncoder) {
         this.outletRepository = outletRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public OutletResponse registerOutlet(OutletRegisterRequest request){
         outletRepository.findByEmail(request.getEmail())
                 .ifPresent(o ->{
                     throw new EmailAlreadyExistsException("Email already registered");
+                });
+        outletRepository.findByPhoneNumber(request.getPhoneNumber())
+                .ifPresent(o -> {
+                    throw new PhoneNumberAlreadyExistsException("Phone number already registered");
                 });
 
         Outlet outlet = new Outlet();
@@ -37,6 +45,7 @@ public class OutletServiceImpl implements OutletService {
         outlet.setPhoneNumber(request.getPhoneNumber());
         outlet.setCity(request.getCity());
         outlet.setOutletType(request.getOutletType());
+        outlet.setPassword(passwordEncoder.encode(request.getPassword()));
         outlet.setStatus("PENDING");
         outlet.setCreatedAt(LocalDateTime.now());
         outlet.setApprovedAt(null);
@@ -56,6 +65,7 @@ public class OutletServiceImpl implements OutletService {
         response.setStatus(outlet.getStatus());
         response.setCreatedAt(outlet.getCreatedAt());
         response.setApprovedAt(outlet.getApprovedAt());
+        response.setPassword(null); //don't return password
         return response;
     }
 

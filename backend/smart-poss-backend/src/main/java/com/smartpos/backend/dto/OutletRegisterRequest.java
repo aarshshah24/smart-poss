@@ -15,5 +15,6 @@ public class OutletRegisterRequest {
     private String outletName;
     private String city;
     private String outletType;
+    private String password;
 
 }
