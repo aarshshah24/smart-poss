@@ -63,6 +63,7 @@ body {
 }
 
 .card-header {
+    color: #fff;
     background: transparent;
-    border-bottom: 1px solid #495057;
+    border-bottom: 1px solid #ff7733;
 }

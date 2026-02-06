@@ -84,3 +84,15 @@ body {
     border: none;
     box-shadow: 0 10px 30px rgba(0,0,0,0.7);
 }
+
+/* Card Headers */
+.card-header{
+    color: #fff;
+    background: transparent;
+    border-bottom: 1px solid #ff7733;
+}
+
+/* Form Label */
+.form-label{
+    color: #fff;
+}
