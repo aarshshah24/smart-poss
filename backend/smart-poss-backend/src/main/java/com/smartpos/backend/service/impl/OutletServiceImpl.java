@@ -7,6 +7,7 @@ import com.smartpos.backend.exception.OutletNotFoundException;
 import com.smartpos.backend.exception.PhoneNumberAlreadyExistsException;
 import com.smartpos.backend.model.Outlet;
 import com.smartpos.backend.repository.OutletRepository;
+import com.smartpos.backend.service.EmailService;
 import com.smartpos.backend.service.OutletService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,17 +16,19 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
 public class OutletServiceImpl implements OutletService {
+    private final EmailService emailService;
     private final OutletRepository outletRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public OutletServiceImpl(OutletRepository outletRepository,BCryptPasswordEncoder passwordEncoder) {
+    public OutletServiceImpl(OutletRepository outletRepository,BCryptPasswordEncoder passwordEncoder,EmailService emailService) {
         this.outletRepository = outletRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public OutletResponse registerOutlet(OutletRegisterRequest request){
@@ -90,6 +93,7 @@ public class OutletServiceImpl implements OutletService {
         outlet.setStatus("APPROVED");
         outlet.setApprovedAt(LocalDateTime.now());
         outletRepository.save(outlet);
+        emailService.sendApprovalMail(outlet.getEmail());
     }
 
     public void rejectOutlet(String outletId){
@@ -98,6 +102,7 @@ public class OutletServiceImpl implements OutletService {
         outlet.setStatus("REJECTED");
         outlet.setApprovedAt(null);
         outletRepository.save(outlet);
+        emailService.sendRejectionMail(outlet.getEmail());
     }
 
 }

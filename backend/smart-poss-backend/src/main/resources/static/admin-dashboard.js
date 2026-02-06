@@ -1,86 +1,89 @@
-// ===============================
+const BASE = "http://localhost:8080/api";
+
+let outlets = [];
+
 // DASHBOARD SUMMARY
-// ===============================
-
-fetch("http://localhost:8080/api/admin/dashboard/summary")
-    .then(response => response.json())
-    .then(data => {
-
-        document.getElementById("totalOutlets").innerText =
-            data.totalOutlets;
-
-        document.getElementById("pendingOutlets").innerText =
-            data.pendingOutlets;
-
-        document.getElementById("approvedOutlets").innerText =
-            data.approvedOutlets;
-
-        // these two stay for future use
-        document.getElementById("revenue").innerText = "₹0";
-        document.getElementById("activeUsers").innerText = 0;
+fetch(BASE + "/admin/dashboard/summary")
+    .then(r=>r.json())
+    .then(d=>{
+        totalOutlets.innerText=d.totalOutlets;
+        pendingOutlets.innerText=d.pendingOutlets;
     });
 
+function loadPending(){
 
-// ===============================
-// PENDING OUTLET TABLE
-// ===============================
-
-fetch("http://localhost:8080/api/admin/outlets/pending")
-    .then(response => response.json())
-    .then(outlets => {
-
-        const tableBody =
-            document.getElementById("pendingOutletTable");
-
-        tableBody.innerHTML = "";
-
-        outlets.forEach(outlet => {
-
-            tableBody.innerHTML += `
-        <tr>
-          <td>${outlet.ownerName}</td>
-          <td>${outlet.outletName}</td>
-          <td>${outlet.city}</td>
-          <td>${outlet.phoneNumber}</td>
-
-          <td>
-            <button class="btn btn-success btn-sm"
-              onclick="approveOutlet('${outlet.id}')">
-              Approve
-            </button>
-
-            <button class="btn btn-danger btn-sm"
-              onclick="rejectOutlet('${outlet.id}')">
-              Reject
-            </button>
-          </td>
-        </tr>
-      `;
+    fetch(BASE+"/admin/outlets/pending")
+        .then(r=>r.json())
+        .then(data=>{
+            outlets=data;
+            renderDashboard();
+            renderRequests();
         });
+}
+
+function renderDashboard(){
+
+    dashboardTable.innerHTML="";
+
+    outlets.slice(0,5).forEach(o=>{
+
+        dashboardTable.innerHTML+=`
+<tr>
+<td>${o.ownerName}</td>
+<td>${o.outletName}</td>
+<td>${o.city}</td>
+<td>${o.phoneNumber}</td>
+<td>
+<button class="btn btn-success btn-sm" onclick="approve('${o.id}')">Approve</button>
+<button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">Reject</button>
+</td>
+</tr>`;
+    });
+}
+
+function renderRequests(){
+
+    requestsTable.innerHTML="";
+
+    outlets.forEach((o,i)=>{
+
+        requestsTable.innerHTML+=`
+<tr>
+<td>${i+1}</td>
+<td>${o.ownerName}</td>
+<td>${o.outletName}</td>
+<td>${o.city}</td>
+<td>${o.phoneNumber}</td>
+<td>
+<button class="btn btn-success btn-sm" onclick="approve('${o.id}')">Approve</button>
+<button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">Reject</button>
+</td>
+</tr>`;
+    });
+}
+
+function approve(id){
+    fetch(BASE+`/admin/outlets/${id}/approve`,{method:"PUT"})
+        .then(()=>loadPending());
+}
+
+function reject(id){
+    fetch(BASE+`/admin/outlets/${id}/reject`,{method:"PUT"})
+        .then(()=>loadPending());
+}
+
+function showSection(id,element){
+
+    document.querySelectorAll(".sidebar .nav-link").forEach(l=>{
+        l.classList.remove("active");
     });
 
+    element.classList.add("active");
 
-// ===============================
-// APPROVE
-// ===============================
+    dashboard.classList.add("d-none");
+    requests.classList.add("d-none");
 
-function approveOutlet(id) {
-
-    fetch(`/api/admin/outlets/${id}/approve`, {
-        method: "PUT"
-    })
-        .then(() => location.reload());
+    document.getElementById(id).classList.remove("d-none");
 }
 
-
-// ===============================
-// REJECT
-// ===============================
-
-function rejectOutlet(id) {
-
-    fetch(`/api/admin/outlets/${id}/reject`, {
-        method: "PUT"
-    })
-        .then(() => location.reload());
-}
+loadPending();
