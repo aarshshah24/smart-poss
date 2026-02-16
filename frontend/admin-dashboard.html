@@ -3,226 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard | SMART POSS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="src/favicon.png">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark admin-navbar px-3">
-    <button class="btn d-md-none text-white" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
-        ☰
-    </button>
-
     <span class="navbar-brand fw-bold ms-2">SMART POSS • Admin</span>
-
-    <div>
-        <span class="text-white me-3 d-none d-sm-inline">Admin</span>
-        <button class="btn btn-outline-light btn-sm">Logout</button>
-    </div>
 </nav>
-
-<!-- MOBILE SIDEBAR -->
-<div class="offcanvas offcanvas-start text-bg-dark" id="adminSidebar">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title">SMART POSS</h5>
-        <button class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-        <ul class="nav flex-column">
-            <li><a class="nav-link" href="#" onclick="showSection('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            <li><a class="nav-link" href="#" onclick="showSection('outletRequests')"><i class="bi bi-clock-history"></i> Outlet Requests</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-shop"></i> Verified Outlets</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-people"></i> Users</a></li>
-            <li><a class="nav-link" href="#"><i class="bi bi-bar-chart"></i> Reports</a></li>
-        </ul>
-    </div>
-</div>
 
 <div class="container-fluid">
     <div class="row">
 
-        <!-- DESKTOP SIDEBAR -->
+        <!-- SIDEBAR -->
         <aside class="col-md-2 sidebar d-none d-md-block p-0">
             <ul class="nav flex-column mt-4">
-                <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('outletRequests')"><i class="bi bi-clock-history"></i> Outlet Requests</a></li>
-                <li><a class="nav-link" href="#"><i class="bi bi-shop"></i> Verified Outlets</a></li>
-                <li><a class="nav-link" href="#"><i class="bi bi-people"></i> Users</a></li>
-                <li><a class="nav-link" href="#"><i class="bi bi-bar-chart"></i> Reports</a></li>
+
+                <li><a class="nav-link active" href="#" onclick="showSection('dashboard',this)">Dashboard</a></li>
+                <li><a class="nav-link" href="#" onclick="showSection('requests',this)">Outlet Requests</a></li>
+                <li><a class="nav-link" href="#" onclick="showSection('verifiedoutlet',this)">Verified Outlets</a></li>
+                <li><a class="nav-link" href="#">Users</a></li>
+                <li><a class="nav-link" href="#">Reports</a></li>
+
             </ul>
         </aside>
 
-        <!-- MAIN -->
         <main class="col-md-10 main-content">
 
-            <!-- DASHBOARD -->
-            <div id="dashboardSection">
+            <!-- STATS -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3"><div class="stat-card"><h6>Total Outlets</h6><h2 id="totalOutlets">0</h2></div></div>
+                <div class="col-6 col-md-3"><div class="stat-card"><h6>Pending Requests</h6><h2 id="pendingOutlets">0</h2></div></div>
+                <div class="col-6 col-md-3"><div class="stat-card"><h6>Active Users</h6><h2>0</h2></div></div>
+                <div class="col-6 col-md-3"><div class="stat-card"><h6>Revenue</h6><h2>₹0</h2></div></div>
+            </div>
 
-                <div class="row g-3 mb-4">
-                    <div class="col-6 col-md-3"><div class="stat-card"><h6>Total Outlets</h6><h2>120</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-card"><h6>Pending Requests</h6><h2 id="pendingRequests">0</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-card"><h6>Active Users</h6><h2>356</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-card"><h6>Revenue</h6><h2>₹ 2.4L</h2></div></div>
-                </div>
+            <!-- DASHBOARD -->
+            <div id="dashboard">
 
                 <div class="card admin-card">
-                    <div class="card-header fw-bold">Latest Outlet Verification Requests</div>
+                    <div class="card-header fw-bold">Latest 5 Pending Outlets</div>
+
                     <div class="card-body table-responsive">
-                        <table class="table table-dark table-hover align-middle">
+                        <table class="table table-dark table-hover">
+
                             <thead>
-                                <tr>
-                                    <th>Owner</th>
-                                    <th>Outlet</th>
-                                    <th>City</th>
-                                    <th>Contact</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th>Owner</th>
+                                <th>Outlet</th>
+                                <th>City</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
-                            <tbody id="outletRequestsTable"></tbody>
+
+                            <tbody id="dashboardTable"></tbody>
+
                         </table>
                     </div>
                 </div>
 
             </div>
 
-            <!-- OUTLET REQUESTS -->
-            <div id="outletRequestsSection" class="d-none">
+            <!-- REQUESTS -->
+            <div id="requests" class="d-none">
 
-                <div class="card admin-card">
-                    <div class="card-header fw-bold color-change">All Outlet Requests</div>
+                <div class="card admin-card mt-4">
+                    <div class="card-header fw-bold">All Pending Requests</div>
+
                     <div class="card-body table-responsive">
-                        <table class="table table-dark table-hover align-middle">
+                        <table class="table table-dark table-hover">
+
                             <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Owner</th>
-                                    <th>Outlet</th>
-                                    <th>City</th>
-                                    <th>Contact</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Owner</th>
+                                <th>Outlet</th>
+                                <th>City</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
-                            <tbody id="allOutletRequestsTable"></tbody>
+
+                            <tbody id="requestsTable"></tbody>
+
                         </table>
                     </div>
                 </div>
 
+            </div>
+
+
+            <!-- Verified Outlet -->
+            <div id="verifiedoutlet">
+                
             </div>
 
         </main>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-const outletRequests = [
-    { owner: "Rahul Shah", outlet: "Food Hub", city: "Ahmedabad", contact: "9876543210" },
-    { owner: "Amit Patel", outlet: "Spice Villa", city: "Surat", contact: "9123456780" },
-    { owner: "Neha Mehta", outlet: "Cafe Brew", city: "Vadodara", contact: "9988776655" },
-    { owner: "Rohan Desai", outlet: "Snack Point", city: "Rajkot", contact: "9012345678" },
-    { owner: "Karan Joshi", outlet: "Urban Tadka", city: "Anand", contact: "8899776655" },
-    { owner: "Vivek Shah", outlet: "Chaat Adda", city: "Nadiad", contact: "9090909090" },
-    { owner: "Ankit Mehta", outlet: "Tea Junction", city: "Ahmedabad", contact: "9998887776" }
-];
-
-function showSection(section) {
-
-    // Hide all sections
-    document.getElementById("dashboardSection").classList.add("d-none");
-    document.getElementById("outletRequestsSection").classList.add("d-none");
-
-    // Show selected section
-    if (section === "dashboard") {
-        document.getElementById("dashboardSection").classList.remove("d-none");
-        loadDashboardRequests();
-    } else {
-        document.getElementById("outletRequestsSection").classList.remove("d-none");
-        loadAllOutletRequests();
-    }
-
-    // ===== ACTIVE SIDEBAR FIX =====
-    document.querySelectorAll(".sidebar .nav-link, .offcanvas .nav-link").forEach(link => {
-        link.classList.remove("active");
-    });
-
-    document.querySelectorAll(`[onclick="showSection('${section}')"]`).forEach(link => {
-        link.classList.add("active");
-    });
-}
-
-/* DASHBOARD — ONLY 5 LATEST */
-function loadDashboardRequests() {
-    const table = document.getElementById("outletRequestsTable");
-    table.innerHTML = "";
-
-    outletRequests.slice(0, 5).forEach((req, index) => {
-        table.innerHTML += `
-            <tr>
-                <td>${req.owner}</td>
-                <td>${req.outlet}</td>
-                <td>${req.city}</td>
-                <td>${req.contact}</td>
-                <td>
-                    <button class="btn btn-success btn-sm" onclick="approveRequest(${index})">Approve</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectRequest(${index})">Reject</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    document.getElementById("pendingRequests").innerText = outletRequests.length;
-}
-
-/* OUTLET REQUESTS — ALL */
-function loadAllOutletRequests() {
-    const table = document.getElementById("allOutletRequestsTable");
-    table.innerHTML = "";
-
-    outletRequests.forEach((req, index) => {
-        table.innerHTML += `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${req.owner}</td>
-                <td>${req.outlet}</td>
-                <td>${req.city}</td>
-                <td>${req.contact}</td>
-                <td>
-                    <button class="btn btn-success btn-sm" onclick="approveRequest(${index})">Approve</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectRequest(${index})">Reject</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function approveRequest(index) {
-    alert("Approved: " + outletRequests[index].outlet);
-    outletRequests.splice(index, 1);
-    refreshTables();
-}
-
-function rejectRequest(index) {
-    alert("Rejected: " + outletRequests[index].outlet);
-    outletRequests.splice(index, 1);
-    refreshTables();
-}
-
-function refreshTables() {
-    loadDashboardRequests();
-    loadAllOutletRequests();
-}
-
-/* INITIAL LOAD */
-loadDashboardRequests();
-</script>
+<script src="admin-dashboard.js"></script>
 
 </body>
 </html>
