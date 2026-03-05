@@ -3,6 +3,8 @@ package com.smartpos.backend.controller;
 import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
 import com.smartpos.backend.service.OutletService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,26 @@ public class OutletController {
     public OutletResponse registerOutlet(@RequestBody OutletRegisterRequest request){
         return outletService.registerOutlet(request);
     }
+
+    @PostMapping("/outlets/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+
+        try {
+            String email = request.get("email");
+            String password = request.get("password");
+
+            OutletResponse response = outletService.login(email, password);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+
 
     @GetMapping("/admin/dashboard/summary")
     public Map<String,Long> getDashboardSummary(){

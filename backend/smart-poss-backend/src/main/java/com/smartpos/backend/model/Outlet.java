@@ -16,6 +16,7 @@ public class Outlet {
 
     //user input fields
     private String ownerName;
+    private boolean loggedIn;
     private String email;
     private Long phoneNumber;
     private String outletName;

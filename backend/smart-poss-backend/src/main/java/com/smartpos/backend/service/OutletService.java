@@ -7,9 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface OutletService {
+
     OutletResponse registerOutlet(OutletRegisterRequest request);
+
+    OutletResponse login(String email, String password); // NEW
+
     List<OutletResponse> getPendingOutlets();
+
     void approveOutlet(String outletId);
+
     void rejectOutlet(String outletId);
+
     Map<String,Long> getDashboardSummary();
 }

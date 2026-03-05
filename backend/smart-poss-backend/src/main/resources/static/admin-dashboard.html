@@ -34,16 +34,41 @@
 
         <main class="col-md-10 main-content">
 
-            <!-- STATS -->
-            <div class="row g-3 mb-4">
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Total Outlets</h6><h2 id="totalOutlets">0</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Pending Requests</h6><h2 id="pendingOutlets">0</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Active Users</h6><h2>0</h2></div></div>
-                <div class="col-6 col-md-3"><div class="stat-card"><h6>Revenue</h6><h2>₹0</h2></div></div>
-            </div>
-
             <!-- DASHBOARD -->
             <div id="dashboard">
+
+                <!-- STATS -->
+                <div class="row g-3 mb-4">
+
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <h6>Total Outlets</h6>
+                            <h2 id="totalOutlets">0</h2>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <h6>Pending Requests</h6>
+                            <h2 id="pendingOutlets">0</h2>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <h6>Active Users</h6>
+                            <h2 id="activeUsers">0</h2>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <h6>Revenue</h6>
+                            <h2>₹0</h2>
+                        </div>
+                    </div>
+
+                </div>
 
                 <div class="card admin-card">
                     <div class="card-header fw-bold">Latest 5 Pending Outlets</div>
@@ -97,10 +122,9 @@
 
             </div>
 
-
             <!-- Verified Outlet -->
-            <div id="verifiedoutlet">
-                
+            <div id="verifiedoutlet" class="d-none">
+
             </div>
 
         </main>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import org.springframework.scheduling.annotation.Async;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -28,11 +29,13 @@ public class EmailServiceImpl implements EmailService {
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         }    }
 
+    @Async
     @Override
     public void sendApprovalMail(String toEmail) {
         sendHtmlMail(toEmail, "Your Smart POSS Account is Approved", "approved.html");
     }
 
+    @Async
     @Override
     public void sendRejectionMail(String toEmail) {
         sendHtmlMail(toEmail, "Smart POSS Account Update", "rejected.html");
