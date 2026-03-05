@@ -4,18 +4,25 @@ let outlets = [];
 
 // DASHBOARD SUMMARY
 fetch(BASE + "/admin/dashboard/summary")
-    .then(r=>r.json())
-    .then(d=>{
-        totalOutlets.innerText=d.totalOutlets;
-        pendingOutlets.innerText=d.pendingOutlets;
+    .then(r => r.json())
+    .then(d => {
+
+        document.getElementById("totalOutlets").innerText = d.totalOutlets;
+        document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
+
+        // NEW: Active Users
+        if (d.activeUsers !== undefined) {
+            document.getElementById("activeUsers").innerText = d.activeUsers;
+        }
+
     });
 
 function loadPending(){
 
-    fetch(BASE+"/admin/outlets/pending")
-        .then(r=>r.json())
-        .then(data=>{
-            outlets=data;
+    fetch(BASE + "/admin/outlets/pending")
+        .then(r => r.json())
+        .then(data => {
+            outlets = data;
             renderDashboard();
             renderRequests();
         });
@@ -23,11 +30,11 @@ function loadPending(){
 
 function renderDashboard(){
 
-    dashboardTable.innerHTML="";
+    dashboardTable.innerHTML = "";
 
-    outlets.slice(0,5).forEach(o=>{
+    outlets.slice(0,5).forEach(o => {
 
-        dashboardTable.innerHTML+=`
+        dashboardTable.innerHTML += `
 <tr>
 <td>${o.ownerName}</td>
 <td>${o.outletName}</td>
@@ -43,11 +50,11 @@ function renderDashboard(){
 
 function renderRequests(){
 
-    requestsTable.innerHTML="";
+    requestsTable.innerHTML = "";
 
-    outlets.forEach((o,i)=>{
+    outlets.forEach((o,i) => {
 
-        requestsTable.innerHTML+=`
+        requestsTable.innerHTML += `
 <tr>
 <td>${i+1}</td>
 <td>${o.ownerName}</td>
@@ -63,18 +70,41 @@ function renderRequests(){
 }
 
 function approve(id){
-    fetch(BASE+`/admin/outlets/${id}/approve`,{method:"PUT"})
-        .then(()=>loadPending());
+    fetch(BASE + `/admin/outlets/${id}/approve`, {method:"PUT"})
+        .then(() => {
+            loadPending();
+            refreshDashboardSummary(); // update stats after approval
+        });
 }
 
 function reject(id){
-    fetch(BASE+`/admin/outlets/${id}/reject`,{method:"PUT"})
-        .then(()=>loadPending());
+    fetch(BASE + `/admin/outlets/${id}/reject`, {method:"PUT"})
+        .then(() => {
+            loadPending();
+            refreshDashboardSummary(); // update stats after rejection
+        });
 }
 
-function showSection(id,element){
+// REFRESH DASHBOARD STATS
+function refreshDashboardSummary(){
 
-    document.querySelectorAll(".sidebar .nav-link").forEach(l=>{
+    fetch(BASE + "/admin/dashboard/summary")
+        .then(r => r.json())
+        .then(d => {
+
+            document.getElementById("totalOutlets").innerText = d.totalOutlets;
+            document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
+
+            if (d.activeUsers !== undefined) {
+                document.getElementById("activeUsers").innerText = d.activeUsers;
+            }
+
+        });
+}
+
+function showSection(id, element){
+
+    document.querySelectorAll(".sidebar .nav-link").forEach(l => {
         l.classList.remove("active");
     });
 
