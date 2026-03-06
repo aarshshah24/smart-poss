@@ -2,39 +2,54 @@ const BASE = "http://localhost:8080/api";
 
 let outlets = [];
 
-// DASHBOARD SUMMARY
-fetch(BASE + "/admin/dashboard/summary")
-    .then(r => r.json())
-    .then(d => {
 
-        document.getElementById("totalOutlets").innerText = d.totalOutlets;
-        document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
+/* ================================
+   LOAD DASHBOARD SUMMARY
+================================ */
 
-        // NEW: Active Users
-        if (d.activeUsers !== undefined) {
+function loadSummary(){
+
+    fetch(BASE + "/admin/dashboard/summary")
+        .then(r=>r.json())
+        .then(d=>{
+
+            document.getElementById("totalOutlets").innerText = d.totalOutlets;
+            document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
             document.getElementById("activeUsers").innerText = d.activeUsers;
-        }
 
-    });
+        });
+
+}
+
+
+/* ================================
+   LOAD PENDING OUTLETS
+================================ */
 
 function loadPending(){
 
-    fetch(BASE + "/admin/outlets/pending")
-        .then(r => r.json())
-        .then(data => {
-            outlets = data;
+    fetch(BASE+"/admin/outlets/pending")
+        .then(r=>r.json())
+        .then(data=>{
+            outlets=data;
             renderDashboard();
             renderRequests();
         });
+
 }
+
+
+/* ================================
+   DASHBOARD TABLE
+================================ */
 
 function renderDashboard(){
 
-    dashboardTable.innerHTML = "";
+    dashboardTable.innerHTML="";
 
-    outlets.slice(0,5).forEach(o => {
+    outlets.slice(0,5).forEach(o=>{
 
-        dashboardTable.innerHTML += `
+        dashboardTable.innerHTML+=`
 <tr>
 <td>${o.ownerName}</td>
 <td>${o.outletName}</td>
@@ -46,15 +61,21 @@ function renderDashboard(){
 </td>
 </tr>`;
     });
+
 }
+
+
+/* ================================
+   REQUESTS TABLE
+================================ */
 
 function renderRequests(){
 
-    requestsTable.innerHTML = "";
+    requestsTable.innerHTML="";
 
-    outlets.forEach((o,i) => {
+    outlets.forEach((o,i)=>{
 
-        requestsTable.innerHTML += `
+        requestsTable.innerHTML+=`
 <tr>
 <td>${i+1}</td>
 <td>${o.ownerName}</td>
@@ -67,44 +88,47 @@ function renderRequests(){
 </td>
 </tr>`;
     });
+
 }
+
+
+/* ================================
+   APPROVE OUTLET
+================================ */
 
 function approve(id){
-    fetch(BASE + `/admin/outlets/${id}/approve`, {method:"PUT"})
-        .then(() => {
+
+    fetch(BASE+`/admin/outlets/${id}/approve`,{method:"PUT"})
+        .then(()=>{
             loadPending();
-            refreshDashboardSummary(); // update stats after approval
+            loadSummary();
         });
+
 }
+
+
+/* ================================
+   REJECT OUTLET
+================================ */
 
 function reject(id){
-    fetch(BASE + `/admin/outlets/${id}/reject`, {method:"PUT"})
-        .then(() => {
+
+    fetch(BASE+`/admin/outlets/${id}/reject`,{method:"PUT"})
+        .then(()=>{
             loadPending();
-            refreshDashboardSummary(); // update stats after rejection
+            loadSummary();
         });
+
 }
 
-// REFRESH DASHBOARD STATS
-function refreshDashboardSummary(){
 
-    fetch(BASE + "/admin/dashboard/summary")
-        .then(r => r.json())
-        .then(d => {
+/* ================================
+   SECTION SWITCH
+================================ */
 
-            document.getElementById("totalOutlets").innerText = d.totalOutlets;
-            document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
+function showSection(id,element){
 
-            if (d.activeUsers !== undefined) {
-                document.getElementById("activeUsers").innerText = d.activeUsers;
-            }
-
-        });
-}
-
-function showSection(id, element){
-
-    document.querySelectorAll(".sidebar .nav-link").forEach(l => {
+    document.querySelectorAll(".sidebar .nav-link").forEach(l=>{
         l.classList.remove("active");
     });
 
@@ -114,6 +138,17 @@ function showSection(id, element){
     requests.classList.add("d-none");
 
     document.getElementById(id).classList.remove("d-none");
+
 }
 
+
+/* ================================
+   INITIAL LOAD
+================================ */
+
+loadSummary();
 loadPending();
+
+/* AUTO REFRESH ACTIVE USERS */
+
+setInterval(loadSummary,5000);

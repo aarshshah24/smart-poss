@@ -1,78 +1,59 @@
 package com.smartpos.backend.service.impl;
 
+import com.smartpos.backend.dto.LoginRequest;
 import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
-import com.smartpos.backend.exception.EmailAlreadyExistsException;
-import com.smartpos.backend.exception.OutletNotFoundException;
-import com.smartpos.backend.exception.PhoneNumberAlreadyExistsException;
 import com.smartpos.backend.model.Outlet;
 import com.smartpos.backend.repository.OutletRepository;
-import com.smartpos.backend.service.EmailService;
 import com.smartpos.backend.service.OutletService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class OutletServiceImpl implements OutletService {
 
-    private final EmailService emailService;
     private final OutletRepository outletRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public OutletServiceImpl(OutletRepository outletRepository,
-                             BCryptPasswordEncoder passwordEncoder,
-                             EmailService emailService) {
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    public OutletServiceImpl(OutletRepository outletRepository) {
         this.outletRepository = outletRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
     }
 
-    // REGISTER
+    @Override
     public OutletResponse registerOutlet(OutletRegisterRequest request){
-
-        outletRepository.findByEmail(request.getEmail())
-                .ifPresent(o -> {
-                    throw new EmailAlreadyExistsException("Email already registered");
-                });
-
-        outletRepository.findByPhoneNumber(request.getPhoneNumber())
-                .ifPresent(o -> {
-                    throw new PhoneNumberAlreadyExistsException("Phone number already registered");
-                });
 
         Outlet outlet = new Outlet();
 
-        outlet.setOutletName(request.getOutletName());
         outlet.setOwnerName(request.getOwnerName());
         outlet.setEmail(request.getEmail());
         outlet.setPhoneNumber(request.getPhoneNumber());
+        outlet.setOutletName(request.getOutletName());
         outlet.setCity(request.getCity());
         outlet.setOutletType(request.getOutletType());
+
         outlet.setPassword(passwordEncoder.encode(request.getPassword()));
 
         outlet.setStatus("PENDING");
         outlet.setLoggedIn(false);
-
         outlet.setCreatedAt(LocalDateTime.now());
-        outlet.setApprovedAt(null);
 
-        Outlet savedOutlet = outletRepository.save(outlet);
+        outletRepository.save(outlet);
 
-        return mapToResponse(savedOutlet);
+        return mapToResponse(outlet);
     }
 
     // LOGIN
-    public OutletResponse login(String email, String password){
+    @Override
+    public OutletResponse login(LoginRequest request){
 
-        Outlet outlet = outletRepository.findByEmail(email)
+        Outlet outlet = outletRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        if(!passwordEncoder.matches(password, outlet.getPassword())){
+        if(!passwordEncoder.matches(request.getPassword(), outlet.getPassword())){
             throw new RuntimeException("Invalid email or password");
         }
 
@@ -80,41 +61,27 @@ public class OutletServiceImpl implements OutletService {
             throw new RuntimeException("Outlet not approved yet");
         }
 
-        // mark as logged in
         outlet.setLoggedIn(true);
+
         outletRepository.save(outlet);
 
         return mapToResponse(outlet);
     }
 
-    private OutletResponse mapToResponse(Outlet outlet){
+    // LOGOUT
+    @Override
+    public void logout(String outletId){
 
-        OutletResponse response = new OutletResponse();
+        Outlet outlet = outletRepository.findById(outletId)
+                .orElseThrow(() -> new RuntimeException("Outlet not found"));
 
-        response.setId(outlet.getId());
-        response.setOutletName(outlet.getOutletName());
-        response.setOwnerName(outlet.getOwnerName());
-        response.setEmail(outlet.getEmail());
-        response.setPhoneNumber(outlet.getPhoneNumber());
-        response.setCity(outlet.getCity());
-        response.setOutletType(outlet.getOutletType());
-        response.setStatus(outlet.getStatus());
-        response.setCreatedAt(outlet.getCreatedAt());
-        response.setApprovedAt(outlet.getApprovedAt());
-        response.setPassword(null);
+        outlet.setLoggedIn(false);
 
-        return response;
+        outletRepository.save(outlet);
     }
 
-    public List<OutletResponse> getPendingOutlets(){
-
-        return outletRepository.findByStatus("PENDING")
-                .stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
-    }
-
-    // DASHBOARD SUMMARY
+    // ADMIN DASHBOARD
+    @Override
     public Map<String,Long> getDashboardSummary(){
 
         Map<String,Long> data = new HashMap<>();
@@ -122,36 +89,61 @@ public class OutletServiceImpl implements OutletService {
         data.put("totalOutlets", outletRepository.count());
         data.put("pendingOutlets", outletRepository.countByStatus("PENDING"));
         data.put("approvedOutlets", outletRepository.countByStatus("APPROVED"));
-
-        // NEW
-        data.put("activeUsers", outletRepository.countByLoggedInTrue());
+        data.put("activeUsers", outletRepository.countByLoggedInIs(true));
 
         return data;
     }
 
+    @Override
+    public List<OutletResponse> getPendingOutlets(){
+
+        List<Outlet> outlets = outletRepository.findByStatus("PENDING");
+
+        List<OutletResponse> responses = new ArrayList<>();
+
+        for(Outlet outlet : outlets){
+            responses.add(mapToResponse(outlet));
+        }
+
+        return responses;
+    }
+
+    @Override
     public void approveOutlet(String outletId){
 
         Outlet outlet = outletRepository.findById(outletId)
-                .orElseThrow(() -> new OutletNotFoundException("Outlet not found"));
+                .orElseThrow(() -> new RuntimeException("Outlet not found"));
 
         outlet.setStatus("APPROVED");
         outlet.setApprovedAt(LocalDateTime.now());
 
         outletRepository.save(outlet);
-
-        emailService.sendApprovalMail(outlet.getEmail());
     }
 
+    @Override
     public void rejectOutlet(String outletId){
 
         Outlet outlet = outletRepository.findById(outletId)
-                .orElseThrow(() -> new OutletNotFoundException("Outlet not found"));
+                .orElseThrow(() -> new RuntimeException("Outlet not found"));
 
         outlet.setStatus("REJECTED");
-        outlet.setApprovedAt(null);
 
         outletRepository.save(outlet);
+    }
 
-        emailService.sendRejectionMail(outlet.getEmail());
+    private OutletResponse mapToResponse(Outlet outlet){
+
+        OutletResponse response = new OutletResponse();
+
+        response.setId(outlet.getId());
+        response.setOwnerName(outlet.getOwnerName());
+        response.setEmail(outlet.getEmail());
+        response.setPhoneNumber(outlet.getPhoneNumber());
+        response.setOutletName(outlet.getOutletName());
+        response.setCity(outlet.getCity());
+        response.setOutletType(outlet.getOutletType());
+        response.setStatus(outlet.getStatus());
+
+        return response;
     }
 }

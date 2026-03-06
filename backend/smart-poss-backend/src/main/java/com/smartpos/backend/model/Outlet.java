@@ -23,7 +23,6 @@ public class Outlet {
     private String city;
     private String outletType;
     private String password;
-    private boolean loggedIn;
     //system fields
     private String status; //APPROVED, PENDING, REJECTED
     private LocalDateTime createdAt;
