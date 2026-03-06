@@ -1,5 +1,6 @@
 package com.smartpos.backend.service;
 
+import com.smartpos.backend.dto.LoginRequest;
 import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
 
@@ -19,4 +20,6 @@ public interface OutletService {
     void rejectOutlet(String outletId);
 
     Map<String,Long> getDashboardSummary();
+    void logout(String outletId);
+    OutletResponse login(LoginRequest request);
 }
