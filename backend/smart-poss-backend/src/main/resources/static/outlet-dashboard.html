@@ -204,64 +204,56 @@
 
 
     /* ===============================
-       SET OUTLET NAME AFTER LOGIN
+       CHECK LOGIN
     ================================ */
 
-    window.onload = function(){
+    let outlet = JSON.parse(localStorage.getItem("outlet"));
 
-        const outletName = localStorage.getItem("outletName");
-
-        if(!outletName){
-            window.location.href = "auth.html";
-            return;
-        }
-
-        document.getElementById("outletName").innerText = outletName;
-
-    };
+    if(!outlet){
+        window.location.href = "auth.html";
+    }
 
 
     /* ===============================
-       LOGOUT FUNCTION
+       SET OUTLET NAME
+    ================================ */
+
+    document.getElementById("outletName").innerText = outlet.outletName;
+
+
+    /* ===============================
+       LOGOUT
     ================================ */
 
     function logout(){
 
-        localStorage.removeItem("outletName");
-        localStorage.removeItem("outletId");
+        fetch("http://localhost:8080/api/logout/" + outlet.id, {
+            method: "PUT"
+        })
+            .then(() => {
 
-        window.location.href = "index.html";
+                localStorage.removeItem("outlet");
+
+                window.location.href = "index.html";
+
+            });
 
     }
 
-    // new function
 
+    /* ===============================
+       DISABLE BACK BUTTON
+    ================================ */
 
-    let menuItems = [];
-    let count = 1;
+    window.history.forward();
 
-    function addMenuItem(event){
-        event.preventDefault();
-        const name = document.getElementById("itemName").value;
-        const price = document.getElementById("itemPrice").value;
-        const category = document.getElementById("itemCategory").value;
-
-        const table = document.getElementById("menuList");
-        const row = `
-        <tr>
-        <td>${count++}</td>
-        <td>${name}</td>
-        <td>₹${price}</td>
-        <td>${category}</td>
-        </tr>
-        `;
-        table.innerHTML += row;
-
-        document.getElementById("itemName").value = "";
-        document.getElementById("itemPrice").value = "";
+    function noBack(){
+        window.history.forward();
     }
+
+    setTimeout(noBack,0);
+    window.onunload=function(){};
 
 </script>
-
 </body>
 </html>
