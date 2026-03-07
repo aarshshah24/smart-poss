@@ -16,6 +16,6 @@ public interface OutletRepository extends MongoRepository<Outlet, String> {
 
     Optional<Outlet> findByPhoneNumber(Long phoneNumber);
 
-    // NEW
-    long countByLoggedInTrue();
+    // used for active users
+    long countByLoggedInIs(boolean loggedIn);
 }

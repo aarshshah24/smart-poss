@@ -1,12 +1,11 @@
 package com.smartpos.backend.controller;
 
+import com.smartpos.backend.dto.LoginRequest;
 import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
 import com.smartpos.backend.service.OutletService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +13,10 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class OutletController {
+
     private final OutletService outletService;
 
-    OutletController(OutletService outletService) {
+    public OutletController(OutletService outletService) {
         this.outletService = outletService;
     }
 
@@ -25,26 +25,37 @@ public class OutletController {
         return outletService.registerOutlet(request);
     }
 
-    @PostMapping("/outlets/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+    // LOGIN API
+    @PostMapping("/outlet/login")
+    public Map<String,Object> login(@RequestBody LoginRequest request){
 
-        try {
-            String email = request.get("email");
-            String password = request.get("password");
+        Map<String,Object> response = new HashMap<>();
 
-            OutletResponse response = outletService.login(email, password);
+        try{
 
-            return ResponseEntity.ok(response);
+            OutletResponse outlet = outletService.login(request);
 
-        } catch (RuntimeException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", e.getMessage()));
+            response.put("success", true);
+            response.put("data", outlet);
+
+        }catch(Exception e){
+
+            response.put("success", false);
+            response.put("message", e.getMessage());
+
         }
+
+        return response;
     }
 
 
+    // LOGOUT API
+    @PutMapping("/logout/{id}")
+    public void logout(@PathVariable String id){
+        outletService.logout(id);
+    }
 
+    // ADMIN DASHBOARD
     @GetMapping("/admin/dashboard/summary")
     public Map<String,Long> getDashboardSummary(){
         return outletService.getDashboardSummary();

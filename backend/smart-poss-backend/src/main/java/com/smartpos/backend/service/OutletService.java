@@ -11,7 +11,7 @@ public interface OutletService {
 
     OutletResponse registerOutlet(OutletRegisterRequest request);
 
-    OutletResponse login(String email, String password); // NEW
+//    OutletResponse login(String email, String password); // NEW
 
     List<OutletResponse> getPendingOutlets();
 
