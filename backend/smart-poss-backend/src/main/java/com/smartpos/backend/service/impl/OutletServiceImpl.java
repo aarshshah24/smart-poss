@@ -5,6 +5,7 @@ import com.smartpos.backend.dto.OutletRegisterRequest;
 import com.smartpos.backend.dto.OutletResponse;
 import com.smartpos.backend.model.Outlet;
 import com.smartpos.backend.repository.OutletRepository;
+import com.smartpos.backend.service.EmailService;
 import com.smartpos.backend.service.OutletService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,14 @@ import java.util.*;
 public class OutletServiceImpl implements OutletService {
 
     private final OutletRepository outletRepository;
+    private final EmailService emailService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public OutletServiceImpl(OutletRepository outletRepository) {
+    public OutletServiceImpl(OutletRepository outletRepository,
+                             EmailService emailService) {
         this.outletRepository = outletRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -108,6 +112,7 @@ public class OutletServiceImpl implements OutletService {
         return responses;
     }
 
+    // APPROVE OUTLET
     @Override
     public void approveOutlet(String outletId){
 
@@ -118,8 +123,14 @@ public class OutletServiceImpl implements OutletService {
         outlet.setApprovedAt(LocalDateTime.now());
 
         outletRepository.save(outlet);
+
+        // SEND APPROVAL EMAIL
+        emailService.sendApprovalMail(outlet.getEmail());
+
+        System.out.println("Approval email triggered for: " + outlet.getEmail());
     }
 
+    // REJECT OUTLET
     @Override
     public void rejectOutlet(String outletId){
 
@@ -129,6 +140,11 @@ public class OutletServiceImpl implements OutletService {
         outlet.setStatus("REJECTED");
 
         outletRepository.save(outlet);
+
+        // SEND REJECTION EMAIL
+        emailService.sendRejectionMail(outlet.getEmail());
+
+        System.out.println("Rejection email triggered for: " + outlet.getEmail());
     }
 
     private OutletResponse mapToResponse(Outlet outlet){

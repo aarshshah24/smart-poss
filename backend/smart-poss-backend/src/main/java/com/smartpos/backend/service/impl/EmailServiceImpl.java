@@ -2,16 +2,14 @@ package com.smartpos.backend.service.impl;
 
 import com.smartpos.backend.service.EmailService;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import org.springframework.scheduling.annotation.Async;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -22,41 +20,69 @@ public class EmailServiceImpl implements EmailService {
         this.mailSender = mailSender;
     }
 
-    private String loadTemplate(String name) throws Exception {
-        ClassPathResource resource = new ClassPathResource("email/" + name);
+    // Load email template from resources/email folder
+    private String loadTemplate(String fileName) throws Exception {
+
+        ClassPathResource resource = new ClassPathResource("email/" + fileName);
 
         try (InputStream inputStream = resource.getInputStream()) {
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        }    }
+        }
+    }
 
+    // Send approval email
     @Async
     @Override
     public void sendApprovalMail(String toEmail) {
-        sendHtmlMail(toEmail, "Your Smart POSS Account is Approved", "approved.html");
+
+        System.out.println("Sending approval email to: " + toEmail);
+
+        sendHtmlMail(
+                toEmail,
+                "Your Smart POSS Account is Approved",
+                "approved.html"
+        );
     }
 
+    // Send rejection email
     @Async
     @Override
     public void sendRejectionMail(String toEmail) {
-        sendHtmlMail(toEmail, "Smart POSS Account Update", "rejected.html");
+
+        System.out.println("Sending rejection email to: " + toEmail);
+
+        sendHtmlMail(
+                toEmail,
+                "Smart POSS Account Update",
+                "rejected.html"
+        );
     }
 
-    private void sendHtmlMail(String to, String subject, String template) {
+    // Common method for sending HTML email
+    private void sendHtmlMail(String to, String subject, String templateName) {
 
         try {
+
             MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom("noreplysmartposs@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);
 
-            String html = loadTemplate(template);
-            helper.setText(html, true);
+            String htmlContent = loadTemplate(templateName);
+
+            helper.setText(htmlContent, true);
 
             mailSender.send(message);
 
+            System.out.println("Email sent successfully to: " + to);
+
         } catch (Exception e) {
+
+            System.out.println("Email sending failed for: " + to);
             e.printStackTrace();
         }
     }
