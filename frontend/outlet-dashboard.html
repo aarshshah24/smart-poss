@@ -32,6 +32,7 @@
         <ul class="nav flex-column">
             <li><a class="nav-link" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
             <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
+            <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-bag"></i> Orders</a></li>
         </ul>
     </div>
 </div>
@@ -44,6 +45,7 @@
             <ul class="nav flex-column mt-4">
                 <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
                 <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
+                <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-bag"></i> Orders</a></li>
             </ul>
         </aside>
 
@@ -172,6 +174,74 @@
 
             </div>
 
+            <!-- ORDERS SECTION -->
+            <div id="ordersSection" class="d-none">
+
+            <div class="card outlet-card mb-3">
+                <div class="card-header fw-bold">Add Order</div>
+
+                <div class="card-body">
+
+                    <form onsubmit="addOrder(event)">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" id="customerName" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Item</label>
+                                <input type="text" id="orderItem" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Amount</label>
+                                <input type="number" id="orderAmount" class="form-control" required>
+                            </div>
+
+                            <div class="col-12 text-end">
+                                <button class="btn btn-success px-4">Add Order</button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+    <!-- ORDER LIST -->
+
+    <div class="card outlet-card">
+
+        <div class="card-header fw-bold">Orders List</div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-dark table-hover align-middle">
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody id="ordersList"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
         </main>
     </div>
 </div>
@@ -194,15 +264,19 @@
             loadMenu(); // ✅ load items when menu tab opens
         }
 
+        if (section === "orders") {
+            document.getElementById("ordersSection").classList.remove("d-none");
+        }
+
     }
 
-    let outlet = JSON.parse(localStorage.getItem("outlet"));
+    // let outlet = JSON.parse(localStorage.getItem("outlet"));
 
-    if(!outlet){
-        window.location.href = "auth.html";
-    }
+    // if(!outlet){
+    //     window.location.href = "auth.html";
+    // }
 
-    document.getElementById("outletName").innerText = outlet.outletName;
+    // document.getElementById("outletName").innerText = outlet.outletName;
 
     let editItemId = null;
 
@@ -325,6 +399,57 @@
 
     setTimeout(noBack,0);
     window.onunload=function(){};
+
+    function showSection(section){
+
+document.getElementById("dashboardSection").classList.add("d-none");
+document.getElementById("menuSection").classList.add("d-none");
+document.getElementById("ordersSection").classList.add("d-none");
+
+if(section==="dashboard"){
+document.getElementById("dashboardSection").classList.remove("d-none");
+}
+
+if(section==="menu"){
+document.getElementById("menuSection").classList.remove("d-none");
+loadMenu();
+}
+
+if(section==="orders"){
+document.getElementById("ordersSection").classList.remove("d-none");
+}
+
+}
+
+let orderCount = 0;
+
+function addOrder(event){
+
+event.preventDefault();
+
+let customer = document.getElementById("customerName").value;
+let item = document.getElementById("orderItem").value;
+let amount = document.getElementById("orderAmount").value;
+
+orderCount++;
+
+let table = document.getElementById("ordersList");
+
+table.innerHTML += `
+<tr>
+<td>${orderCount}</td>
+<td>${customer}</td>
+<td>${item}</td>
+<td>₹${amount}</td>
+<td><span class="badge bg-warning">Preparing</span></td>
+</tr>
+`;
+
+document.getElementById("customerName").value="";
+document.getElementById("orderItem").value="";
+document.getElementById("orderAmount").value="";
+
+}
 
 </script>
 </body>
