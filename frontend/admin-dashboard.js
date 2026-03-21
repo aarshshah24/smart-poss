@@ -1,27 +1,33 @@
 const BASE = "http://localhost:8080/api";
 
 let outlets = [];
-let verifiedOutlets = [];
+
 
 /* ================================
    LOAD DASHBOARD SUMMARY
 ================================ */
 
 function loadSummary(){
+
     fetch(BASE + "/admin/dashboard/summary")
         .then(r=>r.json())
         .then(d=>{
+
             document.getElementById("totalOutlets").innerText = d.totalOutlets;
             document.getElementById("pendingOutlets").innerText = d.pendingOutlets;
             document.getElementById("activeUsers").innerText = d.activeUsers;
+
         });
+
 }
+
 
 /* ================================
    LOAD PENDING OUTLETS
 ================================ */
 
 function loadPending(){
+
     fetch(BASE+"/admin/outlets/pending")
         .then(r=>r.json())
         .then(data=>{
@@ -29,29 +35,20 @@ function loadPending(){
             renderDashboard();
             renderRequests();
         });
+
 }
 
-/* ================================
-   LOAD VERIFIED OUTLETS
-================================ */
-
-function loadVerified(){
-    fetch(BASE+"/admin/outlets/verified")
-        .then(r=>r.json())
-        .then(data=>{
-            verifiedOutlets = data;
-            renderVerified();
-        });
-}
 
 /* ================================
    DASHBOARD TABLE
 ================================ */
 
 function renderDashboard(){
+
     dashboardTable.innerHTML="";
 
     outlets.slice(0,5).forEach(o=>{
+
         dashboardTable.innerHTML+=`
 <tr>
 <td>${o.ownerName}</td>
@@ -64,16 +61,20 @@ function renderDashboard(){
 </td>
 </tr>`;
     });
+
 }
+
 
 /* ================================
    REQUESTS TABLE
 ================================ */
 
 function renderRequests(){
+
     requestsTable.innerHTML="";
 
     outlets.forEach((o,i)=>{
+
         requestsTable.innerHTML+=`
 <tr>
 <td>${i+1}</td>
@@ -87,52 +88,39 @@ function renderRequests(){
 </td>
 </tr>`;
     });
+
 }
 
-/* ================================
-   VERIFIED TABLE
-================================ */
-
-function renderVerified(){
-    let table = document.getElementById("verifiedTable");
-    table.innerHTML = "";
-
-    verifiedOutlets.forEach((o,i)=>{
-        table.innerHTML += `
-<tr>
-<td>${i+1}</td>
-<td>${o.ownerName}</td>
-<td>${o.outletName}</td>
-<td>${o.city}</td>
-<td>${o.verifiedAt || "—"}</td>
-</tr>`;
-    });
-}
 
 /* ================================
    APPROVE OUTLET
 ================================ */
 
 function approve(id){
+
     fetch(BASE+`/admin/outlets/${id}/approve`,{method:"PUT"})
         .then(()=>{
             loadPending();
-            loadVerified();   // 🔥 update verified instantly
             loadSummary();
         });
+
 }
+
 
 /* ================================
    REJECT OUTLET
 ================================ */
 
 function reject(id){
+
     fetch(BASE+`/admin/outlets/${id}/reject`,{method:"PUT"})
         .then(()=>{
             loadPending();
             loadSummary();
         });
+
 }
+
 
 /* ================================
    SECTION SWITCH
@@ -146,19 +134,13 @@ function showSection(id,element){
 
     element.classList.add("active");
 
-    // hide all
-    document.getElementById("dashboard").classList.add("d-none");
-    document.getElementById("requests").classList.add("d-none");
-    document.getElementById("verifiedoutlet").classList.add("d-none");
+    dashboard.classList.add("d-none");
+    requests.classList.add("d-none");
 
-    // show selected
     document.getElementById(id).classList.remove("d-none");
 
-    // 🔥 load verified only when opened
-    if(id === "verifiedoutlet"){
-        loadVerified();
-    }
 }
+
 
 /* ================================
    INITIAL LOAD
@@ -166,11 +148,7 @@ function showSection(id,element){
 
 loadSummary();
 loadPending();
-loadVerified();
 
 /* AUTO REFRESH ACTIVE USERS */
 
-setInterval(()=>{
-    loadSummary();
-    loadPending();
-},5000);
+setInterval(loadSummary,5000);
