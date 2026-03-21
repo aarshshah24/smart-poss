@@ -11,15 +11,18 @@ public interface OutletService {
 
     OutletResponse registerOutlet(OutletRegisterRequest request);
 
-//    OutletResponse login(String email, String password); // NEW
-
     List<OutletResponse> getPendingOutlets();
+
+    // NEW: Method declaration for verified outlets
+    List<OutletResponse> getVerifiedOutlets();
 
     void approveOutlet(String outletId);
 
     void rejectOutlet(String outletId);
 
     Map<String,Long> getDashboardSummary();
+
     void logout(String outletId);
+
     OutletResponse login(LoginRequest request);
 }

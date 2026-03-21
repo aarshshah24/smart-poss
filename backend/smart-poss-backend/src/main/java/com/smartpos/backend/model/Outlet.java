@@ -27,4 +27,5 @@ public class Outlet {
     private String status; //APPROVED, PENDING, REJECTED
     private LocalDateTime createdAt;
     private LocalDateTime approvedAt;
+    private LocalDateTime lastActive; // Tracks the last heartbeat or request
 }

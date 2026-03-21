@@ -18,139 +18,112 @@ public class OutletServiceImpl implements OutletService {
 
     private final OutletRepository outletRepository;
     private final EmailService emailService;
-
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public OutletServiceImpl(OutletRepository outletRepository,
-                             EmailService emailService) {
+    public OutletServiceImpl(OutletRepository outletRepository, EmailService emailService) {
         this.outletRepository = outletRepository;
         this.emailService = emailService;
     }
 
     @Override
     public OutletResponse registerOutlet(OutletRegisterRequest request){
-
         Outlet outlet = new Outlet();
-
         outlet.setOwnerName(request.getOwnerName());
         outlet.setEmail(request.getEmail());
         outlet.setPhoneNumber(request.getPhoneNumber());
         outlet.setOutletName(request.getOutletName());
         outlet.setCity(request.getCity());
         outlet.setOutletType(request.getOutletType());
-
         outlet.setPassword(passwordEncoder.encode(request.getPassword()));
-
         outlet.setStatus("PENDING");
         outlet.setLoggedIn(false);
         outlet.setCreatedAt(LocalDateTime.now());
-
         outletRepository.save(outlet);
-
         return mapToResponse(outlet);
     }
 
-    // LOGIN
     @Override
     public OutletResponse login(LoginRequest request){
-
         Outlet outlet = outletRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-
         if(!passwordEncoder.matches(request.getPassword(), outlet.getPassword())){
             throw new RuntimeException("Invalid email or password");
         }
-
         if(!outlet.getStatus().equals("APPROVED")){
             throw new RuntimeException("Outlet not approved yet");
         }
-
         outlet.setLoggedIn(true);
-
         outletRepository.save(outlet);
-
         return mapToResponse(outlet);
     }
 
-    // LOGOUT
     @Override
     public void logout(String outletId){
-
         Outlet outlet = outletRepository.findById(outletId)
                 .orElseThrow(() -> new RuntimeException("Outlet not found"));
-
         outlet.setLoggedIn(false);
-
         outletRepository.save(outlet);
     }
 
-    // ADMIN DASHBOARD
+    // Inside OutletServiceImpl.java
     @Override
-    public Map<String,Long> getDashboardSummary(){
+    public Map<String, Long> getDashboardSummary() {
+        Map<String, Long> data = new HashMap<>();
 
-        Map<String,Long> data = new HashMap<>();
+        // Define the window for what counts as "active"
+        LocalDateTime activeThreshold = LocalDateTime.now().minusMinutes(2);
 
         data.put("totalOutlets", outletRepository.count());
         data.put("pendingOutlets", outletRepository.countByStatus("PENDING"));
         data.put("approvedOutlets", outletRepository.countByStatus("APPROVED"));
-        data.put("activeUsers", outletRepository.countByLoggedInIs(true));
+
+        // New logic: Count users active in the last 2 minutes
+        data.put("activeUsers", outletRepository.countByLastActiveAfter(activeThreshold));
 
         return data;
     }
 
     @Override
     public List<OutletResponse> getPendingOutlets(){
-
         List<Outlet> outlets = outletRepository.findByStatus("PENDING");
-
         List<OutletResponse> responses = new ArrayList<>();
-
         for(Outlet outlet : outlets){
             responses.add(mapToResponse(outlet));
         }
-
         return responses;
     }
 
-    // APPROVE OUTLET
     @Override
-    public void approveOutlet(String outletId){
-
-        Outlet outlet = outletRepository.findById(outletId)
-                .orElseThrow(() -> new RuntimeException("Outlet not found"));
-
-        outlet.setStatus("APPROVED");
-        outlet.setApprovedAt(LocalDateTime.now());
-
-        outletRepository.save(outlet);
-
-        // SEND APPROVAL EMAIL
-        emailService.sendApprovalMail(outlet.getEmail());
-
-        System.out.println("Approval email triggered for: " + outlet.getEmail());
+    public List<OutletResponse> getVerifiedOutlets() {
+        List<Outlet> outlets = outletRepository.findByStatus("APPROVED");
+        List<OutletResponse> responses = new ArrayList<>();
+        for (Outlet outlet : outlets) {
+            responses.add(mapToResponse(outlet));
+        }
+        return responses;
     }
 
-    // REJECT OUTLET
     @Override
-    public void rejectOutlet(String outletId){
-
+    public void approveOutlet(String outletId){
         Outlet outlet = outletRepository.findById(outletId)
                 .orElseThrow(() -> new RuntimeException("Outlet not found"));
-
-        outlet.setStatus("REJECTED");
-
+        outlet.setStatus("APPROVED");
+        outlet.setApprovedAt(LocalDateTime.now());
         outletRepository.save(outlet);
+        emailService.sendApprovalMail(outlet.getEmail());
+    }
 
-        // SEND REJECTION EMAIL
+    @Override
+    public void rejectOutlet(String outletId){
+        Outlet outlet = outletRepository.findById(outletId)
+                .orElseThrow(() -> new RuntimeException("Outlet not found"));
+        outlet.setStatus("REJECTED");
+        outletRepository.save(outlet);
         emailService.sendRejectionMail(outlet.getEmail());
-
-        System.out.println("Rejection email triggered for: " + outlet.getEmail());
     }
 
     private OutletResponse mapToResponse(Outlet outlet){
-
         OutletResponse response = new OutletResponse();
-
         response.setId(outlet.getId());
         response.setOwnerName(outlet.getOwnerName());
         response.setEmail(outlet.getEmail());
@@ -159,7 +132,7 @@ public class OutletServiceImpl implements OutletService {
         response.setCity(outlet.getCity());
         response.setOutletType(outlet.getOutletType());
         response.setStatus(outlet.getStatus());
-
+        response.setApprovedAt(outlet.getApprovedAt()); // Map the timestamp to DTO
         return response;
     }
 }
