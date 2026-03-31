@@ -13,16 +13,12 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar outlet-navbar px-3">
     <button class="btn d-md-none text-white" data-bs-toggle="offcanvas" data-bs-target="#outletSidebar">☰</button>
-
-    <span class="navbar-brand fw-bold ms-2 outlet-title" id="outletName">Spice Corner</span>
-
+    <span class="navbar-brand fw-bold ms-2 outlet-title" id="outletName">Loading...</span>
     <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
 </nav>
 
-<!-- MOBILE SIDEBAR -->
 <div class="offcanvas offcanvas-start text-bg-dark" id="outletSidebar">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title">SMART POSS</h5>
@@ -30,9 +26,8 @@
     </div>
     <div class="offcanvas-body">
         <ul class="nav flex-column">
-            <li><a class="nav-link" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
+            <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
             <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
-            <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-bag"></i> Orders</a></li>
         </ul>
     </div>
 </div>
@@ -40,26 +35,22 @@
 <div class="container-fluid">
     <div class="row">
 
-        <!-- DESKTOP SIDEBAR -->
         <aside class="col-md-2 outlet-sidebar d-none d-md-block p-0">
             <ul class="nav flex-column mt-4">
                 <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
                 <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-bag"></i> Orders</a></li>
+                <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-cart-plus"></i> Orders</a></li>
             </ul>
         </aside>
 
-        <!-- MAIN -->
         <main class="col-md-10 outlet-main">
 
-            <!-- DASHBOARD SECTION -->
             <div id="dashboardSection">
-
                 <div class="row g-3 mb-4">
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Today Orders</h6><h2>48</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Revenue</h6><h2>₹12,500</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Pending</h6><h2>5</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Top Item</h6><h2>Paneer</h2></div></div>
+                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Today Orders</h6><h2>0</h2></div></div>
+                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Revenue</h6><h2>₹0</h2></div></div>
+                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Pending</h6><h2>0</h2></div></div>
+                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Top Item</h6><h2>-</h2></div></div>
                 </div>
 
                 <div class="row g-3 mb-4">
@@ -69,14 +60,12 @@
                             <h5>Add Order</h5>
                         </div>
                     </div>
-
                     <div class="col-12 col-md-4">
                         <div class="action-card" onclick="showSection('menu')" style="cursor:pointer">
                             <i class="bi bi-pencil-square"></i>
                             <h5>Update Menu</h5>
                         </div>
                     </div>
-
                     <div class="col-12 col-md-4">
                         <div class="action-card">
                             <i class="bi bi-receipt-cutoff"></i>
@@ -99,31 +88,22 @@
                         </table>
                     </div>
                 </div>
-
             </div>
 
-            <!-- MENU SECTION -->
             <div id="menuSection" class="d-none">
-
                 <div class="card outlet-card mb-3">
                     <div class="card-header fw-bold">Add Menu</div>
-
                     <div class="card-body">
-
                         <form onsubmit="addMenuItem(event)">
-
                             <div class="row g-3">
-
                                 <div class="col-md-6">
                                     <label class="form-label">Item Name</label>
                                     <input type="text" id="itemName" class="form-control" placeholder="Enter item name" required>
                                 </div>
-
                                 <div class="col-md-3">
                                     <label class="form-label">Price</label>
                                     <input type="number" id="itemPrice" class="form-control" placeholder="₹ Price" required>
                                 </div>
-
                                 <div class="col-md-3">
                                     <label class="form-label">Category</label>
                                     <select id="itemCategory" class="form-select">
@@ -133,27 +113,18 @@
                                         <option>Beverage</option>
                                     </select>
                                 </div>
-
                                 <div class="col-12 text-end">
                                     <button type="submit" class="btn btn-success px-4">Add Item</button>
                                 </div>
-
                             </div>
-
                         </form>
-
                     </div>
                 </div>
 
-                <!-- MENU LIST -->
                 <div class="card outlet-card">
-
                     <div class="card-header fw-bold">Menu Items</div>
-
                     <div class="card-body table-responsive">
-
                         <table class="table table-dark table-hover align-middle">
-
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -163,84 +134,73 @@
                                 <th>Actions</th>
                             </tr>
                             </thead>
-
-                            <tbody id="menuList">
-                            </tbody>
-
+                            <tbody id="menuList"></tbody>
                         </table>
-
                     </div>
                 </div>
+                <div id="ordersSection" class="d-none">
 
-            </div>
+    <!-- Add Order -->
+    <div class="card outlet-card mb-3">
+        <div class="card-header fw-bold">Add Order</div>
+        <div class="card-body">
+            <form onsubmit="addOrder(event)">
+                <div class="row g-3">
 
-            <!-- ORDERS SECTION -->
-            <div id="ordersSection" class="d-none">
+                    <div class="col-md-6">
+                        <label class="form-label">Item Name</label>
+                        <input type="text" id="orderItem" class="form-control" placeholder="Enter item" required>
+                    </div>
 
-            <div class="card outlet-card mb-3">
-                <div class="card-header fw-bold">Add Order</div>
+                    <div class="col-md-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" id="orderQty" class="form-control" required>
+                    </div>
 
-                <div class="card-body">
+                    <div class="col-md-3">
+                        <label class="form-label">Amount</label>
+                        <input type="number" id="orderAmount" class="form-control" required>
+                    </div>
 
-                    <form onsubmit="addOrder(event)">
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select id="orderStatus" class="form-select">
+                            <option>Pending</option>
+                            <option>Preparing</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
 
-                        <div class="row g-3">
-
-                            <div class="col-md-6">
-                                <label class="form-label">Customer Name</label>
-                                <input type="text" id="customerName" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Item</label>
-                                <input type="text" id="orderItem" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Amount</label>
-                                <input type="number" id="orderAmount" class="form-control" required>
-                            </div>
-
-                            <div class="col-12 text-end">
-                                <button class="btn btn-success px-4">Add Order</button>
-                            </div>
-
-                        </div>
-
-                    </form>
+                    <div class="col-12 text-end">
+                        <button class="btn btn-success px-4">Add Order</button>
+                    </div>
 
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- ORDER LIST -->
-
+    <!-- Orders Table -->
     <div class="card outlet-card">
-
-        <div class="card-header fw-bold">Orders List</div>
-
+        <div class="card-header fw-bold">All Orders</div>
         <div class="card-body table-responsive">
-
             <table class="table table-dark table-hover align-middle">
-
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Customer</th>
                     <th>Item</th>
+                    <th>Qty</th>
                     <th>Amount</th>
                     <th>Status</th>
                 </tr>
                 </thead>
-
-                <tbody id="ordersList"></tbody>
-
+                <tbody id="orderList"></tbody>
             </table>
-
         </div>
-
     </div>
 
 </div>
+            </div>
 
         </main>
     </div>
@@ -249,9 +209,37 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    const BASE = "http://localhost:8080/api";
+    let outlet = JSON.parse(localStorage.getItem("outlet"));
 
+    // Redirect if session is missing
+    // if(!outlet){
+    //     window.location.href = "auth.html";
+    // } else {
+    //     document.getElementById("outletName").innerText = outlet.outletName;
+    // }
+
+    /* ================================
+       HEARTBEAT LOGIC (ACTIVE USER)
+    ================================ */
+    function sendHeartbeat() {
+        if (outlet && outlet.id) {
+            fetch(`${BASE}/heartbeat/${outlet.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" }
+            })
+                .catch(err => console.error("Heartbeat error:", err));
+        }
+    }
+
+    // Ping immediately and then every 60 seconds
+    sendHeartbeat();
+    const heartbeatInterval = setInterval(sendHeartbeat, 60000);
+
+    /* ================================
+       SECTION NAVIGATION
+    ================================ */
     function showSection(section) {
-
         document.getElementById("dashboardSection").classList.add("d-none");
         document.getElementById("menuSection").classList.add("d-none");
 
@@ -261,196 +249,114 @@
 
         if (section === "menu") {
             document.getElementById("menuSection").classList.remove("d-none");
-            loadMenu(); // ✅ load items when menu tab opens
+            loadMenu();
         }
 
-        if (section === "orders") {
-            document.getElementById("ordersSection").classList.remove("d-none");
-        }
+        const allLinks = document.querySelectorAll('.nav-link');
+        allLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.innerText.toLowerCase().includes(section)) {
+                link.classList.add('active');
+            }
+        });
 
+        const offcanvasElement = document.getElementById('outletSidebar');
+        const instance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+        if(instance) instance.hide();
     }
 
-    // let outlet = JSON.parse(localStorage.getItem("outlet"));
-
-    // if(!outlet){
-    //     window.location.href = "auth.html";
-    // }
-
-    // document.getElementById("outletName").innerText = outlet.outletName;
-
+    /* ================================
+       MENU MANAGEMENT (CRUD)
+    ================================ */
     let editItemId = null;
 
     function addMenuItem(event){
-
         event.preventDefault();
-
         let itemName=document.getElementById("itemName").value;
         let price=document.getElementById("itemPrice").value;
         let category=document.getElementById("itemCategory").value;
 
         if(editItemId){
-
-            fetch("http://localhost:8080/api/menu/"+editItemId,{
+            fetch(`${BASE}/menu/${editItemId}`,{
                 method:"PUT",
                 headers:{ "Content-Type":"application/json" },
-                body:JSON.stringify({
-                    itemName:itemName,
-                    price:price,
-                    category:category
-                })
+                body:JSON.stringify({ itemName, price, category })
             })
                 .then(()=>{
                     editItemId=null;
                     loadMenu();
-                    document.getElementById("itemName").value="";
-                    document.getElementById("itemPrice").value="";
+                    event.target.reset();
                 });
-
         }else{
-
-            fetch("http://localhost:8080/api/menu/add",{
+            fetch(`${BASE}/menu/add`,{
                 method:"POST",
                 headers:{ "Content-Type":"application/json" },
-                body:JSON.stringify({
-                    outletId:outlet.id,
-                    itemName:itemName,
-                    price:price,
-                    category:category
-                })
+                body:JSON.stringify({ outletId:outlet.id, itemName, price, category })
             })
                 .then(()=>{
-
                     loadMenu();
-                    document.getElementById("itemName").value="";
-                    document.getElementById("itemPrice").value="";
-
+                    event.target.reset();
                 });
-
         }
-
     }
 
     function loadMenu(){
-
-        fetch("http://localhost:8080/api/menu/"+outlet.id)
+        fetch(`${BASE}/menu/${outlet.id}`)
             .then(res=>res.json())
             .then(data=>{
-
                 let table=document.getElementById("menuList");
                 table.innerHTML="";
-
                 data.forEach((item,index)=>{
-
                     table.innerHTML+=`
-        <tr>
-            <td>${index+1}</td>
-            <td>${item.itemName}</td>
-            <td>₹${item.price}</td>
-            <td>${item.category}</td>
-            <td>
-                <button class="btn btn-sm btn-primary me-1" onclick="editItem('${item.id}','${item.itemName}','${item.price}','${item.category}')">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </td>
-        </tr>`;
-    });
-});
-}
+                        <tr>
+                            <td>${index+1}</td>
+                            <td>${item.itemName}</td>
+                            <td>₹${item.price}</td>
+                            <td>${item.category}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary me-1" onclick="editItem('${item.id}','${item.itemName}','${item.price}','${item.category}')">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+                });
+            });
+    }
 
     function editItem(id,name,price,category){
-
         editItemId=id;
-
         document.getElementById("itemName").value=name;
         document.getElementById("itemPrice").value=price;
         document.getElementById("itemCategory").value=category;
-
     }
 
     function deleteItem(id){
-
-        fetch("http://localhost:8080/api/menu/"+id,{
-            method:"DELETE"
-        })
-            .then(()=>loadMenu());
-
+        if(confirm("Delete this item?")){
+            fetch(`${BASE}/menu/${id}`,{ method:"DELETE" })
+                .then(()=>loadMenu());
+        }
     }
 
+    /* ================================
+       LOGOUT & SECURITY
+    ================================ */
     function logout(){
-
-        fetch("http://localhost:8080/api/logout/" + outlet.id, {
-            method: "PUT"
-        })
+        fetch(`${BASE}/logout/${outlet.id}`, { method: "PUT" })
             .then(() => {
+                // Stop the heartbeat immediately
+                clearInterval(heartbeatInterval);
                 localStorage.removeItem("outlet");
                 window.location.href = "index.html";
             });
-
     }
 
+    // Disable browser back button after logout
     window.history.forward();
-
-    function noBack(){
-        window.history.forward();
-    }
-
+    function noBack(){ window.history.forward(); }
     setTimeout(noBack,0);
-    window.onunload=function(){};
-
-    function showSection(section){
-
-document.getElementById("dashboardSection").classList.add("d-none");
-document.getElementById("menuSection").classList.add("d-none");
-document.getElementById("ordersSection").classList.add("d-none");
-
-if(section==="dashboard"){
-document.getElementById("dashboardSection").classList.remove("d-none");
-}
-
-if(section==="menu"){
-document.getElementById("menuSection").classList.remove("d-none");
-loadMenu();
-}
-
-if(section==="orders"){
-document.getElementById("ordersSection").classList.remove("d-none");
-}
-
-}
-
-let orderCount = 0;
-
-function addOrder(event){
-
-event.preventDefault();
-
-let customer = document.getElementById("customerName").value;
-let item = document.getElementById("orderItem").value;
-let amount = document.getElementById("orderAmount").value;
-
-orderCount++;
-
-let table = document.getElementById("ordersList");
-
-table.innerHTML += `
-<tr>
-<td>${orderCount}</td>
-<td>${customer}</td>
-<td>${item}</td>
-<td>₹${amount}</td>
-<td><span class="badge bg-warning">Preparing</span></td>
-</tr>
-`;
-
-document.getElementById("customerName").value="";
-document.getElementById("orderItem").value="";
-document.getElementById("orderAmount").value="";
-
-}
-
 </script>
 </body>
 </html>
