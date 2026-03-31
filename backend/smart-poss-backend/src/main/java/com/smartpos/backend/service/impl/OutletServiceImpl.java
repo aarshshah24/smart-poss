@@ -44,15 +44,26 @@ public class OutletServiceImpl implements OutletService {
 
     @Override
     public OutletResponse login(LoginRequest request){
+        // 1. Check if user exists
         Outlet outlet = outletRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        // 2. Check password - Throw generic error for security if password is wrong
         if(!passwordEncoder.matches(request.getPassword(), outlet.getPassword())){
             throw new RuntimeException("Invalid email or password");
         }
-        if(!outlet.getStatus().equals("APPROVED")){
+
+        // 3. Check status - Throw SPECIFIC error if not approved
+        if(outlet.getStatus().equals("PENDING")){
             throw new RuntimeException("Outlet not approved yet");
         }
+
+        if(outlet.getStatus().equals("REJECTED")){
+            throw new RuntimeException("Your registration was rejected. Please contact support.");
+        }
+
         outlet.setLoggedIn(true);
+        outlet.setLastActive(LocalDateTime.now()); // Update heartbeat on login
         outletRepository.save(outlet);
         return mapToResponse(outlet);
     }

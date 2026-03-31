@@ -8,5 +8,5 @@ import java.util.List;
 public interface MenuItemRepository extends MongoRepository<MenuItem,String> {
 
     List<MenuItem> findByOutletId(String outletId);
-
+    boolean existsByOutletIdAndItemNameIgnoreCase(String outletId, String itemName);
 }
