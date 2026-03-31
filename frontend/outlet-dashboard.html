@@ -10,6 +10,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="outlet-dashboard.css">
+    <style>
+        /* Styles for the new Order Modal to match your theme */
+        .order-modal .modal-content { background-color: #343a40; color: white; border: 1px solid #495057; }
+        .order-modal .form-control, .order-modal .form-select { background-color: #495057; border: none; color: white; }
+        .order-modal .form-control:focus, .order-modal .form-select:focus { background-color: #495057; color: white; box-shadow: 0 0 0 0.25 margin-left: rgba(255, 119, 51, 0.25); border: 1px solid #ff7733; }
+        .readonly-field { background-color: #212529 !important; color: #ced4da !important; cursor: not-allowed; }
+        .item-row { border-bottom: 1px solid #495057; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .item-row:last-child { border-bottom: none; }
+        .btn-remove { color: #ff4d4d; cursor: pointer; font-size: 1.2rem; }
+    </style>
 </head>
 <body>
 
@@ -28,18 +38,18 @@
         <ul class="nav flex-column">
             <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
             <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
+            <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-cart-check"></i> Orders</a></li>
         </ul>
     </div>
 </div>
 
 <div class="container-fluid">
     <div class="row">
-
         <aside class="col-md-2 outlet-sidebar d-none d-md-block p-0">
             <ul class="nav flex-column mt-4">
-                <li><a class="nav-link active" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('orders')"><i class="bi bi-cart-plus"></i> Orders</a></li>
+                <li><a class="nav-link active" id="link-dashboard" href="#" onclick="showSection('dashboard')"><i class="bi bi-grid"></i> Dashboard</a></li>
+                <li><a class="nav-link" id="link-menu" href="#" onclick="showSection('menu')"><i class="bi bi-list-ul"></i> Menu</a></li>
+                <li><a class="nav-link" id="link-orders" href="#" onclick="showSection('orders')"><i class="bi bi-cart-check"></i> Orders</a></li>
             </ul>
         </aside>
 
@@ -47,15 +57,15 @@
 
             <div id="dashboardSection">
                 <div class="row g-3 mb-4">
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Today Orders</h6><h2>0</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Revenue</h6><h2>₹0</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Pending</h6><h2>0</h2></div></div>
-                    <div class="col-6 col-md-3"><div class="stat-box"><h6>Top Item</h6><h2>-</h2></div></div>
+                    <div class="col-6 col-md-4"><div class="stat-box"><h6>Today Orders</h6><h2>0</h2></div></div>
+                    <div class="col-6 col-md-4"><div class="stat-box"><h6>Revenue</h6><h2>₹0</h2></div></div>
+                    <!-- <div class="col-6 col-md-3"><div class="stat-box"><h6>Pending</h6><h2>0</h2></div></div> -->
+                    <div class="col-6 col-md-4"><div class="stat-box"><h6>Top Item</h6><h2>-</h2></div></div>
                 </div>
 
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
-                        <div class="action-card">
+                        <div class="action-card" onclick="showSection('orders')" style="cursor:pointer">
                             <i class="bi bi-plus-circle"></i>
                             <h5>Add Order</h5>
                         </div>
@@ -79,11 +89,11 @@
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover align-middle">
                             <thead>
-                            <tr><th>#</th><th>Order</th><th>Amount</th><th>Status</th></tr>
+                            <tr><th>#</th><th>Order</th><th>Customer Name</th><th>Total Amount</th></tr>
                             </thead>
                             <tbody>
-                            <tr><td>1</td><td>#ORD1023</td><td>₹450</td><td><span class="badge bg-success">Completed</span></td></tr>
-                            <tr><td>2</td><td>#ORD1024</td><td>₹820</td><td><span class="badge bg-warning">Preparing</span></td></tr>
+                            <tr><td>1</td><td>#ORD1023</td><td>Abc</td><td>₹820</td></tr>
+                            <tr><td>2</td><td>#ORD1024</td><td>Abc</td><td>₹820</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -98,7 +108,8 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Item Name</label>
-                                    <input type="text" id="itemName" class="form-control" placeholder="Enter item name" required>
+                                    <input type="text" id="itemName" class="form-control" placeholder="Enter item name" required oninput="clearError()">
+                                    <small id="menuError" class="text-danger mt-1" style="display: none;"></small>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Price</label>
@@ -126,83 +137,98 @@
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover align-middle">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Item Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Actions</th>
-                            </tr>
+                            <tr><th>#</th><th>Item Name</th><th>Price</th><th>Category</th><th>Actions</th></tr>
                             </thead>
                             <tbody id="menuList"></tbody>
                         </table>
                     </div>
                 </div>
-                <div id="ordersSection" class="d-none">
+            </div>
 
-    <!-- Add Order -->
-    <div class="card outlet-card mb-3">
-        <div class="card-header fw-bold">Add Order</div>
-        <div class="card-body">
-            <form onsubmit="addOrder(event)">
-                <div class="row g-3">
-
-                    <div class="col-md-6">
-                        <label class="form-label">Item Name</label>
-                        <input type="text" id="orderItem" class="form-control" placeholder="Enter item" required>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label">Quantity</label>
-                        <input type="number" id="orderQty" class="form-control" required>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label">Amount</label>
-                        <input type="number" id="orderAmount" class="form-control" required>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label">Status</label>
-                        <select id="orderStatus" class="form-select">
-                            <option>Pending</option>
-                            <option>Preparing</option>
-                            <option>Completed</option>
-                        </select>
-                    </div>
-
-                    <div class="col-12 text-end">
-                        <button class="btn btn-success px-4">Add Order</button>
-                    </div>
-
+            <div id="ordersSection" class="d-none">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold">Order Management</h5>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addOrderModal" onclick="openOrderModal()">
+                        <i class="bi bi-plus-lg"></i> Add New Order
+                    </button>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Orders Table -->
-    <div class="card outlet-card">
-        <div class="card-header fw-bold">All Orders</div>
-        <div class="card-body table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody id="orderList"></tbody>
-            </table>
-        </div>
-    </div>
-
-</div>
+                <div class="card outlet-card">
+                    <div class="card-header fw-bold">Past Orders</div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-dark table-hover align-middle">
+                            <thead>
+                            <tr>
+                                <th>OrderID</th>
+                                <th>Customer Name</th>
+                                <th>Contact No</th>
+                                <th>Total Amount</th>
+                                <th>Date & Time</th>
+                            </tr>
+                            </thead>
+                            <tbody id="orderList">
+                                <tr><td colspan="6" class="text-center text-muted">No orders found</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </main>
+    </div>
+</div>
+
+<div class="modal fade order-modal" id="addOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Create New Order</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Order ID</label>
+                            <input type="text" id="orderIdField" class="form-control readonly-field" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Customer Name</label>
+                            <input type="text" id="custName" class="form-control" placeholder="Enter name" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact No</label>
+                            <input type="text" id="custContact" class="form-control" placeholder="Enter number" required>
+                        </div>
+                    </div>
+
+                    <h6 class="border-bottom pb-2">Select Items</h6>
+                    <div class="row g-2 align-items-end mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Item</label>
+                            <select id="itemDropdown" class="form-select"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Qty</label>
+                            <input type="number" id="itemQty" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary w-100" onclick="addItemToOrder()">Add Item</button>
+                        </div>
+                    </div>
+
+                    <div id="orderItemsSummary" class="bg-dark rounded p-3 mb-3" style="min-height: 100px;">
+                        </div>
+
+                    <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                        <span class="fs-5">Total Items: <b id="displayTotalQty">0</b></span>
+                        <span class="fs-4 fw-bold text-success">Grand Total: ₹<span id="displayGrandTotal">0</span></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success w-100 py-2 fw-bold" onclick="submitOrder()">Create Order</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -212,63 +238,43 @@
     const BASE = "http://localhost:8080/api";
     let outlet = JSON.parse(localStorage.getItem("outlet"));
 
-    // Redirect if session is missing
     // if(!outlet){
     //     window.location.href = "auth.html";
     // } else {
     //     document.getElementById("outletName").innerText = outlet.outletName;
     // }
 
-    /* ================================
-       HEARTBEAT LOGIC (ACTIVE USER)
-    ================================ */
     function sendHeartbeat() {
         if (outlet && outlet.id) {
             fetch(`${BASE}/heartbeat/${outlet.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" }
-            })
-                .catch(err => console.error("Heartbeat error:", err));
+            }).catch(err => console.error("Heartbeat error:", err));
         }
     }
-
-    // Ping immediately and then every 60 seconds
     sendHeartbeat();
     const heartbeatInterval = setInterval(sendHeartbeat, 60000);
 
-    /* ================================
-       SECTION NAVIGATION
-    ================================ */
     function showSection(section) {
         document.getElementById("dashboardSection").classList.add("d-none");
         document.getElementById("menuSection").classList.add("d-none");
+        document.getElementById("ordersSection").classList.add("d-none");
 
-        if (section === "dashboard") {
-            document.getElementById("dashboardSection").classList.remove("d-none");
-        }
+        document.getElementById(section + "Section").classList.remove("d-none");
 
-        if (section === "menu") {
-            document.getElementById("menuSection").classList.remove("d-none");
-            loadMenu();
-        }
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.getElementById("link-" + section).classList.add('active');
 
-        const allLinks = document.querySelectorAll('.nav-link');
-        allLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.innerText.toLowerCase().includes(section)) {
-                link.classList.add('active');
-            }
-        });
-
-        const offcanvasElement = document.getElementById('outletSidebar');
-        const instance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-        if(instance) instance.hide();
+        if(section === 'menu') loadMenu();
+        if(section === 'orders') loadOrders();
     }
 
-    /* ================================
-       MENU MANAGEMENT (CRUD)
-    ================================ */
+    /* --- MENU LOGIC --- */
     let editItemId = null;
+    function clearError() {
+        const errorBox = document.getElementById("menuError");
+        errorBox.style.display = "none";
+    }
 
     function addMenuItem(event){
         event.preventDefault();
@@ -276,54 +282,36 @@
         let price=document.getElementById("itemPrice").value;
         let category=document.getElementById("itemCategory").value;
 
-        if(editItemId){
-            fetch(`${BASE}/menu/${editItemId}`,{
-                method:"PUT",
-                headers:{ "Content-Type":"application/json" },
-                body:JSON.stringify({ itemName, price, category })
-            })
-                .then(()=>{
-                    editItemId=null;
-                    loadMenu();
-                    event.target.reset();
-                });
-        }else{
-            fetch(`${BASE}/menu/add`,{
-                method:"POST",
-                headers:{ "Content-Type":"application/json" },
-                body:JSON.stringify({ outletId:outlet.id, itemName, price, category })
-            })
-                .then(()=>{
-                    loadMenu();
-                    event.target.reset();
-                });
-        }
+        const url = editItemId ? `${BASE}/menu/${editItemId}` : `${BASE}/menu/add`;
+        fetch(url, {
+            method: editItemId ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ outletId:outlet.id, itemName, price, category })
+        })
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) {
+                const errorBox = document.getElementById("menuError");
+                errorBox.innerText = data.message || "Failed";
+                errorBox.style.display = "block";
+            } else {
+                editItemId = null;
+                event.target.reset();
+                loadMenu();
+            }
+        });
     }
 
     function loadMenu(){
-        fetch(`${BASE}/menu/${outlet.id}`)
-            .then(res=>res.json())
-            .then(data=>{
-                let table=document.getElementById("menuList");
-                table.innerHTML="";
-                data.forEach((item,index)=>{
-                    table.innerHTML+=`
-                        <tr>
-                            <td>${index+1}</td>
-                            <td>${item.itemName}</td>
-                            <td>₹${item.price}</td>
-                            <td>${item.category}</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary me-1" onclick="editItem('${item.id}','${item.itemName}','${item.price}','${item.category}')">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-                });
+        fetch(`${BASE}/menu/${outlet.id}`).then(res=>res.json()).then(data=>{
+            let table=document.getElementById("menuList");
+            table.innerHTML="";
+            data.forEach((item,index)=>{
+                table.innerHTML+=`<tr><td>${index+1}</td><td>${item.itemName}</td><td>₹${item.price}</td><td>${item.category}</td>
+                <td><button class="btn btn-sm btn-primary me-1" onclick="editItem('${item.id}','${item.itemName}','${item.price}','${item.category}')"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')"><i class="bi bi-trash"></i></button></td></tr>`;
             });
+        });
     }
 
     function editItem(id,name,price,category){
@@ -331,32 +319,80 @@
         document.getElementById("itemName").value=name;
         document.getElementById("itemPrice").value=price;
         document.getElementById("itemCategory").value=category;
+        showSection('menu');
     }
 
     function deleteItem(id){
-        if(confirm("Delete this item?")){
-            fetch(`${BASE}/menu/${id}`,{ method:"DELETE" })
-                .then(()=>loadMenu());
-        }
+        if(confirm("Delete item?")) fetch(`${BASE}/menu/${id}`,{ method:"DELETE" }).then(()=>loadMenu());
     }
 
-    /* ================================
-       LOGOUT & SECURITY
-    ================================ */
+    /* --- ORDER MODULE LOGIC --- */
+    let selectedItems = [];
+    let menuItems = [];
+
+    function openOrderModal() {
+        selectedItems = [];
+        updateOrderSummary();
+        document.getElementById("orderForm").reset();
+        document.getElementById("orderIdField").value = "ORD" + Date.now().toString().slice(-6);
+        
+        fetch(`${BASE}/menu/${outlet.id}`).then(res=>res.json()).then(data=>{
+            menuItems = data;
+            const dropdown = document.getElementById("itemDropdown");
+            dropdown.innerHTML = data.map(i => `<option value="${i.id}">${i.itemName} - ₹${i.price}</option>`).join('');
+        });
+    }
+
+    function addItemToOrder() {
+        const itemId = document.getElementById("itemDropdown").value;
+        const qty = parseInt(document.getElementById("itemQty").value);
+        const item = menuItems.find(i => i.id === itemId);
+
+        const existing = selectedItems.find(i => i.id === itemId);
+        if(existing) existing.qty += qty;
+        else selectedItems.push({ id: item.id, name: item.itemName, price: item.price, qty: qty });
+        
+        updateOrderSummary();
+    }
+
+    function removeItem(index) {
+        selectedItems.splice(index, 1);
+        updateOrderSummary();
+    }
+
+    function updateOrderSummary() {
+        const container = document.getElementById("orderItemsSummary");
+        let total = 0, count = 0;
+        
+        container.innerHTML = selectedItems.map((item, index) => {
+            total += (item.price * item.qty);
+            count += item.qty;
+            return `<div class="item-row">
+                <span>${item.name} (x${item.qty})</span>
+                <span>₹${item.price * item.qty} <i class="bi bi-x-circle btn-remove ms-2" onclick="removeItem(${index})"></i></span>
+            </div>`;
+        }).join('');
+
+        document.getElementById("displayTotalQty").innerText = count;
+        document.getElementById("displayGrandTotal").innerText = total;
+    }
+
+    function loadOrders() {
+        // Placeholder for loading orders from backend
+    }
+
+    function submitOrder() {
+        if(selectedItems.length === 0) return alert("Add at least one item!");
+        alert("Order created locally! Connect backend to save.");
+        bootstrap.Modal.getInstance(document.getElementById('addOrderModal')).hide();
+    }
+
     function logout(){
-        fetch(`${BASE}/logout/${outlet.id}`, { method: "PUT" })
-            .then(() => {
-                // Stop the heartbeat immediately
-                clearInterval(heartbeatInterval);
-                localStorage.removeItem("outlet");
-                window.location.href = "index.html";
-            });
+        fetch(`${BASE}/logout/${outlet.id}`, { method: "PUT" }).then(() => {
+            localStorage.removeItem("outlet");
+            window.location.href = "index.html";
+        });
     }
-
-    // Disable browser back button after logout
-    window.history.forward();
-    function noBack(){ window.history.forward(); }
-    setTimeout(noBack,0);
 </script>
 </body>
 </html>

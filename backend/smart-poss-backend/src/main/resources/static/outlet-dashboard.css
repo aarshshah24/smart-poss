@@ -99,3 +99,15 @@ body {
 .form-label{
     color: #fff;
 }
+
+.btn-success {
+    color: #ffffff !important;
+    background-color: #ff7733 !important;
+    border-color: #ff7733 !important;
+}
+
+.btn-primary {
+    color: #ffffff !important;
+    background-color: #ff7733 !important;
+    border-color: #ff7733 !important;
+}
