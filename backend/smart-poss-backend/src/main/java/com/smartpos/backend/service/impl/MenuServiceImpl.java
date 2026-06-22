@@ -53,7 +53,17 @@ public class MenuServiceImpl implements MenuService {
     public MenuItem updateMenuItem(String id, MenuItemRequest request) {
         MenuItem item = menuItemRepository.findById(id).orElseThrow();
 
-        // Optional: Add duplicate check here as well if name is changed during update
+        if (!item.getItemName().equalsIgnoreCase(request.getItemName())) {
+            String outletId = request.getOutletId() != null ? request.getOutletId() : item.getOutletId();
+            boolean exists = menuItemRepository.existsByOutletIdAndItemNameIgnoreCase(
+                    outletId,
+                    request.getItemName()
+            );
+            if (exists) {
+                throw new RuntimeException("Item '" + request.getItemName() + "' already exists in your menu.");
+            }
+        }
+
         item.setItemName(request.getItemName());
         item.setPrice(request.getPrice());
         item.setCategory(request.getCategory());

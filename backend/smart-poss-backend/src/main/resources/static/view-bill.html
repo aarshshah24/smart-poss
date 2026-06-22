@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Receipt | SMART POSS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="src/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2124 0%, #111215 100%);
+            color: #e9ecef;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+        }
+
+        .receipt-card {
+            background: rgba(52, 58, 64, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            max-width: 550px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .receipt-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff7733, #ff5f1f);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ff7733, #ff5f1f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-sub {
+            color: #adb5bd;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .outlet-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px 0;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .info-item label {
+            color: #868e96;
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 500;
+        }
+
+        .info-item span {
+            font-weight: 600;
+            color: #f8f9fa;
+        }
+
+        .item-table {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .item-table th {
+            color: #868e96;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .item-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .item-qty {
+            color: #adb5bd;
+            text-align: center;
+        }
+
+        .item-price {
+            text-align: right;
+            color: #f8f9fa;
+        }
+
+        .total-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .grand-total {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+
+        .paid-badge {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #868e96;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
+        }
+
+        .status-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .loading-spinner {
+            color: #ff7733;
+        }
+
+        .error-message {
+            color: #ef4444;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="receipt-card">
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-5">
+        <div class="spinner-border loading-spinner mb-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted">Fetching your digital receipt...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="d-none py-5">
+        <div class="brand-header">
+            <span class="brand-logo"><i class="bi bi-x-circle-fill text-danger"></i> Receipt Error</span>
+        </div>
+        <div class="error-message" id="errorMessage">
+            Could not retrieve details for this order. Please verify the link.
+        </div>
+    </div>
+
+    <!-- Receipt Content -->
+    <div id="receiptContent" class="d-none">
+        <div class="brand-header">
+            <span class="brand-logo"><i class="bi bi-receipt"></i> SMART POSS</span>
+            <div class="brand-sub">Digital Receipt System</div>
+            <div class="outlet-name" id="outletNameDisplay">Loading Outlet...</div>
+            <div class="text-muted small" id="outletCityDisplay">...</div>
+        </div>
+
+        <div class="status-container">
+            <span class="paid-badge"><i class="bi bi-patch-check-fill"></i> Paid</span>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Order ID</label>
+                <span id="orderIdDisplay">#ORD-000000</span>
+            </div>
+            <div class="info-item text-end">
+                <label>Date & Time</label>
+                <span id="orderDateDisplay">--/--/---- --:--</span>
+            </div>
+            <div class="info-item">
+                <label>Customer Name</label>
+                <span id="customerNameDisplay">--</span>
+            </div>
+            <div class="info-item text-end">
+                <label>Contact No</label>
+                <span id="customerPhoneDisplay">--</span>
+            </div>
+        </div>
+
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th style="width: 55%;">Item</th>
+                    <th style="width: 20%; text-align: center;">Qty</th>
+                    <th style="width: 25%; text-align: right;">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="itemsContainer">
+                <!-- Dynamic Items -->
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <div class="total-row">
+                <span class="text-muted">Total Quantity</span>
+                <span id="totalQtyDisplay" class="fw-bold">0</span>
+            </div>
+            <div class="total-row">
+                <span class="text-muted">Subtotal</span>
+                <span id="subtotalDisplay">₹0.00</span>
+            </div>
+            <div class="total-row">
+                <span class="grand-total">Grand Total</span>
+                <span class="grand-total" id="grandTotalDisplay">₹0.00</span>
+            </div>
+        </div>
+
+        <div class="receipt-footer">
+            <p class="mb-1">Thank you for your visit! 😊</p>
+            <p class="mb-0">Powered by SMART POSS</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+        const apiBase = "/api"; // Relative base so it dynamically resolves standard host/port
+
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const receiptContent = document.getElementById("receiptContent");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!orderId) {
+            loadingState.classList.add("d-none");
+            errorState.classList.remove("d-none");
+            errorMessage.innerText = "No Order ID provided in the link.";
+            return;
+        }
+
+        // Fetch Order Details
+        fetch(`${apiBase}/orders/${orderId}`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Order not found or database query failed.");
+                }
+                return res.json();
+            })
+            .then(order => {
+                // Populate Order Data
+                document.getElementById("orderIdDisplay").innerText = "#" + order.id.toUpperCase();
+                document.getElementById("customerNameDisplay").innerText = order.customerName || "Valued Customer";
+                document.getElementById("customerPhoneDisplay").innerText = order.contactNo || "—";
+                
+                // Format Date
+                const dateObj = new Date(order.orderDate);
+                const formattedDate = dateObj.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }) + ' ' + dateObj.toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                document.getElementById("orderDateDisplay").innerText = formattedDate;
+
+                // Populate Items
+                const itemsContainer = document.getElementById("itemsContainer");
+                itemsContainer.innerHTML = "";
+                let itemTotalQuantity = 0;
+                
+                order.items.forEach(item => {
+                    const row = document.createElement("tr");
+                    
+                    const nameTd = document.createElement("td");
+                    nameTd.className = "item-name";
+                    nameTd.innerText = item.itemName;
+                    
+                    const qtyTd = document.createElement("td");
+                    qtyTd.className = "item-qty";
+                    qtyTd.innerText = "x" + item.quantity;
+                    
+                    const priceTd = document.createElement("td");
+                    priceTd.className = "item-price";
+                    priceTd.innerText = "₹" + (item.price * item.quantity).toFixed(2);
+                    
+                    row.appendChild(nameTd);
+                    row.appendChild(qtyTd);
+                    row.appendChild(priceTd);
+                    itemsContainer.appendChild(row);
+
+                    itemTotalQuantity += item.quantity;
+                });
+
+                // Populate Totals
+                const grandTotal = order.totalAmount || 0;
+                document.getElementById("totalQtyDisplay").innerText = order.totalQuantity || itemTotalQuantity;
+                document.getElementById("subtotalDisplay").innerText = "₹" + grandTotal.toFixed(2);
+                document.getElementById("grandTotalDisplay").innerText = "₹" + grandTotal.toFixed(2);
+
+                // Fetch Outlet Details to display the Name/City of the business
+                return fetch(`${apiBase}/outlets/${order.outletId}`);
+            })
+            .then(res => {
+                if (res && res.ok) {
+                    return res.json();
+                }
+                return null;
+            })
+            .then(outlet => {
+                if (outlet) {
+                    document.getElementById("outletNameDisplay").innerText = outlet.outletName;
+                    document.getElementById("outletCityDisplay").innerText = outlet.city;
+                } else {
+                    document.getElementById("outletNameDisplay").innerText = "Partner Outlet";
+                }
+                
+                // Show receipt content
+                loadingState.classList.add("d-none");
+                receiptContent.classList.remove("d-none");
+            })
+            .catch(err => {
+                console.error("Receipt loading error:", err);
+                loadingState.classList.add("d-none");
+                errorState.classList.remove("d-none");
+                errorMessage.innerText = err.message || "Failed to load receipt details.";
+            });
+    });
+</script>
+</body>
+</html>

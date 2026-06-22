@@ -107,9 +107,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        -Dsun.net.spi.nameservice.nameservers=8.8.8.8,8.8.4.4
+                        -Dsun.net.spi.nameservice.provider.1=dns,sun
+                    </jvmArguments>
+                </configuration>
             </plugin>
-
         </plugins>
+
     </build>
 
 </project>

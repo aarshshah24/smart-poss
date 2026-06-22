@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,7 +25,13 @@ public class OrderServiceImpl implements OrderService {
         order.setContactNo(request.getContactNo());
         order.setItems(request.getItems());
         order.setTotalAmount(request.getTotalAmount());
-        order.setTotalQuantity(request.getTotalQuantity());
+        
+        int qty = request.getTotalQuantity();
+        if (qty <= 0 && request.getItems() != null) {
+            qty = request.getItems().stream().mapToInt(item -> item.getQuantity()).sum();
+        }
+        order.setTotalQuantity(qty);
+        
         order.setOrderDate(LocalDateTime.now());
         order.setStatus("COMPLETED");
         return orderRepository.save(order);
@@ -33,5 +40,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrdersByOutlet(String outletId) {
         return orderRepository.findByOutletIdOrderByOrderDateDesc(outletId);
+    }
+
+    @Override
+    public Optional<Order> getOrderById(String id) {
+        return orderRepository.findById(id);
     }
 }

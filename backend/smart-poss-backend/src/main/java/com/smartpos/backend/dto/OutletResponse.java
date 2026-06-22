@@ -18,7 +18,6 @@ public class OutletResponse {
     private String outletName;
     private String city;
     private String outletType;
-    private String password;
 
     //system fields
     private String status; //APPROVED, PENDING, REJECTED

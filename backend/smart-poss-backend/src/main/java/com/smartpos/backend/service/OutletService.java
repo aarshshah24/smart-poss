@@ -25,4 +25,6 @@ public interface OutletService {
     void logout(String outletId);
 
     OutletResponse login(LoginRequest request);
+
+    OutletResponse getOutletById(String id);
 }

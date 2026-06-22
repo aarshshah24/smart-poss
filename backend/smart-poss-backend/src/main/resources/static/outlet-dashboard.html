@@ -185,12 +185,23 @@
     // Redirect if session is lost
     if(!outlet || !outlet.id) window.location.href = "auth.html";
 
+    function startHeartbeat() {
+        if (outlet && outlet.id) {
+            fetch(`${BASE}/heartbeat/${outlet.id}`, { method: "PUT" })
+                .catch(err => console.error("Heartbeat error: ", err));
+        }
+    }
+
     // INITIALIZATION: Runs on every Page Refresh
     document.addEventListener("DOMContentLoaded", () => {
         if(outlet) {
             document.getElementById("outletName").innerText = outlet.outletName;
             loadMenu(); // Fetch menu from DB immediately
             loadOrders(); // Fetch orders from DB immediately
+            
+            // Start heartbeat and set interval
+            startHeartbeat();
+            setInterval(startHeartbeat, 60000);
         }
     });
 
@@ -315,7 +326,8 @@
             customerName: document.getElementById("custName").value,
             contactNo: document.getElementById("custContact").value,
             items: selectedItems.map(i => ({ itemName: i.name, price: i.price, quantity: i.qty })),
-            totalAmount: parseFloat(document.getElementById("displayGrandTotal").innerText)
+            totalAmount: parseFloat(document.getElementById("displayGrandTotal").innerText),
+            totalQuantity: parseInt(document.getElementById("displayTotalQty").innerText)
         };
         // Matches @PostMapping("/create-order") in OrderController.java
         fetch(`${BASE}/orders/create-order`, {
@@ -344,8 +356,16 @@
     }
 
     function logout() {
-        localStorage.clear(); // Important to fix crossover issue
-        window.location.href = "index.html";
+        if (outlet && outlet.id) {
+            fetch(`${BASE}/logout/${outlet.id}`, { method: "PUT" })
+                .finally(() => {
+                    localStorage.clear(); // Important to fix crossover issue
+                    window.location.href = "index.html";
+                });
+        } else {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
     }
 </script>
 </body>

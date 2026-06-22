@@ -133,6 +133,13 @@ public class OutletServiceImpl implements OutletService {
         emailService.sendRejectionMail(outlet.getEmail());
     }
 
+    @Override
+    public OutletResponse getOutletById(String id) {
+        Outlet outlet = outletRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Outlet not found"));
+        return mapToResponse(outlet);
+    }
+
     private OutletResponse mapToResponse(Outlet outlet){
         OutletResponse response = new OutletResponse();
         response.setId(outlet.getId());

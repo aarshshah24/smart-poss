@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="src/favicon.png">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -53,42 +50,80 @@
         .brand-btn:hover {
             background-color: #ff5f1f;
         }
-
-        .btn a {
-            text-decoration: none;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-
     <h3 class="text-center mb-4">Outlet Login</h3>
 
-    <!-- LOGIN FORM -->
     <form id="loginForm">
-
         <div class="mb-3">
             <label>Email</label>
-            <input type="email" class="form-control" placeholder="Enter registered email" required>
+            <input id="email" type="email" class="form-control" placeholder="Enter registered email" required>
         </div>
 
         <div class="mb-3">
             <label>Password</label>
-            <input type="password" class="form-control" placeholder="Enter password" required>
+            <input id="password" type="password" class="form-control" placeholder="Enter password" required>
         </div>
 
-        <a href="outlet-dashboard.html"></a><button type="submit" class="btn brand-btn w-100">
+        <button type="submit" class="btn brand-btn w-100">
             Login
-        </button></a>
-
+        </button>
+        <div id="loginError" style="display:none; color:#ff7733; margin-top:10px; font-weight: 500;"></div>
     </form>
-
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+    const BASE = "http://localhost:8080/api";
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorBox = document.getElementById("loginError");
+
+        // Reset error UI
+        errorBox.innerText = "";
+        errorBox.style.display = "none";
+
+        fetch(BASE + "/outlet/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+            .then(async (res) => {
+                // Read JSON body even if the status is an error (401, 403, etc.)
+                const data = await res.json();
+
+                // Check if login was unsuccessful
+                if (!res.ok || data.success === false) {
+                    // Throwing an error here pushes execution to the .catch() block
+                    throw new Error(data.message || "Invalid credentials or account not approved.");
+                }
+
+                return data;
+            })
+            .then(data => {
+                // Success: Save outlet data and redirect
+                localStorage.setItem("outlet", JSON.stringify(data.data));
+                window.location.href = "outlet-dashboard.html";
+            })
+            .catch(err => {
+                // Catch-all for thrown errors and network failures
+                errorBox.innerText = err.message;
+                errorBox.style.display = "block";
+            });
+    });
+</script>
 </body>
 </html>

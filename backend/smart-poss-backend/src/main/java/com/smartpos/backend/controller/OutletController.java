@@ -30,6 +30,11 @@ public class OutletController {
         return outletService.registerOutlet(request);
     }
 
+    @GetMapping("/outlets/{id}")
+    public OutletResponse getOutletById(@PathVariable String id) {
+        return outletService.getOutletById(id);
+    }
+
     @PostMapping("/outlet/login")
     public Map<String,Object> login(@RequestBody LoginRequest request){
         Map<String,Object> response = new HashMap<>();
