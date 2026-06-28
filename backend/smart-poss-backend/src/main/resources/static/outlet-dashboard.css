@@ -3,20 +3,31 @@ body {
     color: #fff;
 }
 
-/* Navbar */
+/* ── Navbar ── */
 .outlet-navbar {
-    height: 70px;
+    height: 60px;
     background: #000;
     border-bottom: 3px solid #ff7733;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
 .outlet-title {
-    color: #adb5bd !important;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+    text-align: center;
 }
 
-/* Sidebar */
+/* ── Desktop Sidebar ── */
 .outlet-sidebar {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 60px);
     background: #111;
 }
 
@@ -24,26 +35,30 @@ body {
     color: #adb5bd;
     padding: 14px 20px;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .outlet-sidebar .nav-link i {
-    margin-right: 8px;
+    font-size: 1rem;
 }
 
 /* Task-2: Highlight Logic */
 .outlet-sidebar .nav-link:hover,
 .outlet-sidebar .nav-link.active,
-#outletSidebar .nav-link.active {
+#outletSidebar .nav-link.active,
+#outletSidebar .nav-link:hover {
     background: #ff7733;
     color: #fff !important;
 }
 
-/* Main */
+/* ── Main Content ── */
 .outlet-main {
-    padding: 30px;
+    padding: 24px;
 }
 
-/* Stat Boxes */
+/* ── Stat Boxes ── */
 .stat-box {
     background: #343a40;
     border-radius: 14px;
@@ -53,35 +68,39 @@ body {
 
 .stat-box h6 {
     opacity: 0.8;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
 }
 
 .stat-box h2 {
     color: #ff7733;
     font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
-/* Action Cards */
+/* ── Action Cards ── */
 .action-card {
     background: #ff7733;
     color: #212529;
     border-radius: 18px;
-    padding: 30px;
+    padding: 30px 20px;
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s;
 }
 
 .action-card i {
-    font-size: 40px;
+    font-size: 36px;
     display: block;
     margin-bottom: 10px;
 }
 
 .action-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
 }
 
-/* Orders Table */
+/* ── Cards ── */
 .outlet-card {
     background: #343a40;
     border: none;
@@ -93,11 +112,17 @@ body {
     color: #fff;
     background: transparent;
     border-bottom: 1px solid #ff7733;
+    padding: 1rem 1.25rem;
 }
 
 /* Form Label */
 .form-label{
     color: #fff;
+}
+
+/* table sizing */
+.table {
+    font-size: 0.9rem;
 }
 
 .btn-success {
@@ -110,4 +135,75 @@ body {
     color: #ffffff !important;
     background-color: #ff7733 !important;
     border-color: #ff7733 !important;
+}
+
+/* ── Offcanvas Mobile Sidebar ── */
+#outletSidebar {
+    background: #111 !important;
+    width: 240px;
+}
+
+#outletSidebar .offcanvas-header {
+    border-bottom: 1px solid #ff7733;
+    padding: 1rem;
+}
+
+#outletSidebar .offcanvas-title {
+    color: #ff7733;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+#outletSidebar .btn-close {
+    filter: invert(1);
+}
+
+#outletSidebar .nav-link {
+    color: #adb5bd;
+    padding: 14px 20px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Responsive Breakpoints ── */
+@media (max-width: 767.98px) {
+    .outlet-main {
+        padding: 14px;
+    }
+
+    .stat-box h2 {
+        font-size: 1.4rem;
+    }
+
+    .stat-box h6 {
+        font-size: 0.78rem;
+    }
+
+    .action-card {
+        padding: 20px 12px;
+    }
+
+    .action-card i {
+        font-size: 28px;
+    }
+
+    .action-card h5 {
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .table th,
+    .table td {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.5rem;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .stat-box {
+        padding: 14px;
+    }
 }

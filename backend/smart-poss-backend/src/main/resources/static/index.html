@@ -15,9 +15,19 @@
         <a class="navbar-brand d-flex align-items-center" href="#">
             <h1 class="logo-title">SMART POSS</h1>
         </a>
-        <div class="d-flex ms-auto align-items-center">
-            <a class="nav-link text-white me-4" href="#about-us">About Us</a>
-            <a class="btn btn-outline-danger" href="auth.html">Log-In</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link text-white me-3" href="#about-us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger" href="auth.html">Log-In</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -160,36 +170,50 @@
                 <h1 class="demo-title">Register Your Outlet</h1>
                 <p class="text-muted mb-4">Get in touch with our team to verify..</p>
 
-                <form id="outletForm">
+                <!-- Global alert -->
+                <div id="formMessage" class="mb-3"></div>
+
+                <form id="outletForm" novalidate>
                     <div class="row g-3">
+
                         <div class="col-md-6">
-                            <label class="form-label">Owner Name*</label>
-                            <input type="text" class="form-control" id="ownerName" name="ownerName" required>
+                            <label class="form-label" for="ownerName">Owner Name*</label>
+                            <input type="text" class="form-control" id="ownerName" name="ownerName"
+                                   placeholder="Full name" autocomplete="name">
+                            <div class="invalid-feedback" id="err-ownerName"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Email*</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label class="form-label" for="email">Email*</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="you@example.com" autocomplete="email">
+                            <div class="invalid-feedback" id="err-email"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Phone Number*</label>
-                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" minlength="10" maxlength="10" pattern="[0-9]{10}" required>
+                            <label class="form-label" for="phoneNumber">Phone Number*</label>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                                   placeholder="10-digit mobile" maxlength="10" autocomplete="tel">
+                            <div class="invalid-feedback" id="err-phoneNumber"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">City*</label>
-                            <input type="text" class="form-control" id="city" name="city" pattern="[A-Za-z\s]+" title="City should only contain letters" required>
+                            <label class="form-label" for="city">City*</label>
+                            <input type="text" class="form-control" id="city" name="city"
+                                   placeholder="e.g. Mumbai" autocomplete="address-level2">
+                            <div class="invalid-feedback" id="err-city"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Outlet Name*</label>
-                            <input type="text" class="form-control" id="outletName" name="outletName" required>
+                            <label class="form-label" for="outletName">Outlet Name*</label>
+                            <input type="text" class="form-control" id="outletName" name="outletName"
+                                   placeholder="Your outlet name">
+                            <div class="invalid-feedback" id="err-outletName"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Outlet Type*</label>
-                            <select class="form-select" id="outletType" name="outletType" required>
+                            <label class="form-label" for="outletType">Outlet Type*</label>
+                            <select class="form-select" id="outletType" name="outletType">
                                 <option value="">Select type</option>
                                 <option>Food Court</option>
                                 <option>Cafe</option>
@@ -197,21 +221,89 @@
                                 <option>Bakery</option>
                                 <option>Cloud Kitchen</option>
                             </select>
+                            <div class="invalid-feedback" id="err-outletType"></div>
                         </div>
 
-                        <div class="col-md-12">
-                            <label class="form-label">Create Password*</label>
-                            <input type="password" id="password" class="form-control" name="password" minlength="6" placeholder="Min 6 characters" required>
+                        <div class="col-md-6">
+                            <label class="form-label" for="password">Create Password*</label>
+                            <input type="password" id="password" class="form-control" name="password"
+                                   placeholder="Min 6 characters" autocomplete="new-password">
+                            <div class="invalid-feedback" id="err-password"></div>
                         </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="confirmPassword">Confirm Password*</label>
+                            <input type="password" id="confirmPassword" class="form-control"
+                                   placeholder="Re-enter password" autocomplete="new-password">
+                            <div class="invalid-feedback" id="err-confirmPassword"></div>
+                        </div>
+
                     </div>
 
-                    <button type="submit" class="btn btn-danger submit-btn mt-4 px-4">Submit</button>
-                    <div id="formMessage" class="mt-3"></div>
+                    <button type="submit" id="submitBtn" class="btn btn-danger submit-btn mt-4 px-4">
+                        <span id="submitBtnText">Submit</span>
+                        <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                    </button>
                 </form>
             </div>
 
-            <div class="col-lg-6 text-center">
-                <img src="src/Contact us-bro.png" class="img-fluid" alt="Demo">
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                <img src="src/Contact us-bro.png" class="img-fluid" alt="Register your outlet">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about-us" class="about-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <p class="about-tag text-uppercase mb-2">Who We Are</p>
+                <h2 class="about-title mb-3">Built by Operators, <br>For Operators</h2>
+                <p class="about-text">
+                    Smart POSS was born out of a simple frustration — managing a food outlet shouldn't require
+                    five different tools and a tech team. We set out to build one unified platform that handles
+                    everything from orders to billing, staff to reports, all under one roof.
+                </p>
+                <p class="about-text mt-3">
+                    Our team of food-industry veterans and tech enthusiasts have designed Smart POSS to be
+                    fast, reliable, and easy enough that anyone on your team can pick it up in minutes.
+                </p>
+                <ul class="about-list">
+                    <li>✅ Trusted by 500+ outlets across India</li>
+                    <li>✅ Zero-downtime cloud infrastructure</li>
+                    <li>✅ 24/7 dedicated support team</li>
+                    <li>✅ Continuous feature updates at no extra cost</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="about-stat-card">
+                            <h3 class="about-stat-number">500+</h3>
+                            <p class="about-stat-label">Outlets Onboarded</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat-card">
+                            <h3 class="about-stat-number">10L+</h3>
+                            <p class="about-stat-label">Orders Processed</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat-card">
+                            <h3 class="about-stat-number">99.9%</h3>
+                            <p class="about-stat-label">Uptime Guaranteed</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat-card">
+                            <h3 class="about-stat-number">24/7</h3>
+                            <p class="about-stat-label">Customer Support</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -256,39 +348,173 @@
 <script src="api.js"></script>
 
 <script>
+    /* ── Helpers ── */
+    function setFieldError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const errDiv = document.getElementById("err-" + fieldId);
+        if (!input || !errDiv) return;
+        input.classList.add("is-invalid");
+        errDiv.textContent = message;
+    }
+
+    function clearFieldError(fieldId) {
+        const input = document.getElementById(fieldId);
+        const errDiv = document.getElementById("err-" + fieldId);
+        if (!input || !errDiv) return;
+        input.classList.remove("is-invalid");
+        errDiv.textContent = "";
+    }
+
+    function setFieldValid(fieldId) {
+        const input = document.getElementById(fieldId);
+        if (!input) return;
+        input.classList.remove("is-invalid");
+        input.classList.add("is-valid");
+    }
+
+    function showGlobalMessage(message, type) {
+        const msg = document.getElementById("formMessage");
+        const icons = { success: "✅", error: "❌", warning: "⚠️" };
+        const bsType = type === "success" ? "success" : type === "warning" ? "warning" : "danger";
+        msg.innerHTML = `
+            <div class="alert alert-${bsType} alert-dismissible fade show py-2" role="alert">
+                ${icons[type] || ""} ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+    }
+
+    /* ── Validation ── */
+    function validateForm() {
+        let valid = true;
+        const fields = ["ownerName", "email", "phoneNumber", "city", "outletName", "outletType", "password", "confirmPassword"];
+        fields.forEach(f => clearFieldError(f));
+
+        const ownerName = document.getElementById("ownerName").value.trim();
+        if (!ownerName) {
+            setFieldError("ownerName", "Owner name is required."); valid = false;
+        } else if (ownerName.length < 2) {
+            setFieldError("ownerName", "Name must be at least 2 characters."); valid = false;
+        } else { setFieldValid("ownerName"); }
+
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+            setFieldError("email", "Email is required."); valid = false;
+        } else if (!emailRegex.test(email)) {
+            setFieldError("email", "Please enter a valid email address."); valid = false;
+        } else { setFieldValid("email"); }
+
+        const phone = document.getElementById("phoneNumber").value.trim();
+        if (!phone) {
+            setFieldError("phoneNumber", "Phone number is required."); valid = false;
+        } else if (!/^[6-9]\d{9}$/.test(phone)) {
+            setFieldError("phoneNumber", "Enter a valid 10-digit Indian mobile number."); valid = false;
+        } else { setFieldValid("phoneNumber"); }
+
+        const city = document.getElementById("city").value.trim();
+        if (!city) {
+            setFieldError("city", "City is required."); valid = false;
+        } else if (/\d/.test(city)) {
+            setFieldError("city", "City name cannot contain numbers."); valid = false;
+        } else if (!/^[A-Za-z\s]+$/.test(city)) {
+            setFieldError("city", "City should only contain letters."); valid = false;
+        } else { setFieldValid("city"); }
+
+        const outletName = document.getElementById("outletName").value.trim();
+        if (!outletName) {
+            setFieldError("outletName", "Outlet name is required."); valid = false;
+        } else if (outletName.length < 2) {
+            setFieldError("outletName", "Outlet name must be at least 2 characters."); valid = false;
+        } else { setFieldValid("outletName"); }
+
+        const outletType = document.getElementById("outletType").value;
+        if (!outletType) {
+            setFieldError("outletType", "Please select an outlet type."); valid = false;
+        } else { setFieldValid("outletType"); }
+
+        const password = document.getElementById("password").value;
+        if (!password) {
+            setFieldError("password", "Password is required."); valid = false;
+        } else if (password.length < 6) {
+            setFieldError("password", "Password must be at least 6 characters."); valid = false;
+        } else { setFieldValid("password"); }
+
+        const confirm = document.getElementById("confirmPassword").value;
+        if (!confirm) {
+            setFieldError("confirmPassword", "Please confirm your password."); valid = false;
+        } else if (confirm !== password) {
+            setFieldError("confirmPassword", "Passwords do not match."); valid = false;
+        } else { setFieldValid("confirmPassword"); }
+
+        return valid;
+    }
+
+    /* ── Live validation on blur ── */
+    ["ownerName", "email", "phoneNumber", "city", "outletName", "outletType", "password", "confirmPassword"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("blur", validateForm);
+    });
+
+    /* ── Submit handler ── */
     document.getElementById("outletForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
-        // TASK-2: ADDITIONAL JS VALIDATION FOR CITY
-        const cityValue = document.getElementById("city").value;
-        const msg = document.getElementById("formMessage");
-
-        if (/\d/.test(cityValue)) {
-            msg.innerHTML = "❌ City name cannot contain numbers.";
-            msg.style.color = "red";
+        if (!validateForm()) {
+            showGlobalMessage("Please fix the errors above before submitting.", "warning");
             return;
         }
 
+        // Loading state
+        const btn = document.getElementById("submitBtn");
+        const btnText = document.getElementById("submitBtnText");
+        const spinner = document.getElementById("submitSpinner");
+        btn.disabled = true;
+        btnText.textContent = "Submitting...";
+        spinner.classList.remove("d-none");
+
         const data = {
-            ownerName: document.getElementById("ownerName").value,
-            email: document.getElementById("email").value,
-            phoneNumber: document.getElementById("phoneNumber").value,
-            city: cityValue,
-            outletName: document.getElementById("outletName").value,
+            ownerName: document.getElementById("ownerName").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            phoneNumber: document.getElementById("phoneNumber").value.trim(),
+            city: document.getElementById("city").value.trim(),
+            outletName: document.getElementById("outletName").value.trim(),
             outletType: document.getElementById("outletType").value,
             password: document.getElementById("password").value
         };
 
         postData("/outlets/register", data)
             .then(res => {
-                msg.innerHTML = "✅ Registration successful! Approval confirmation will be sent via email.";
-                msg.style.color = "green";
+                showGlobalMessage("Registration successful! Approval confirmation will be sent via email.", "success");
                 document.getElementById("outletForm").reset();
+                // Clear all is-valid states
+                document.querySelectorAll(".is-valid").forEach(el => el.classList.remove("is-valid"));
             })
             .catch(err => {
-                msg.innerHTML = err.message || "❌ Registration failed";
-                msg.style.color = "red";
+                // Map known server error messages to friendly UI messages
+                let message = "Registration failed. Please try again.";
+                const raw = err?.message || err?.error || (typeof err === "string" ? err : "");
+                const lower = raw.toLowerCase();
+
+                if (lower.includes("email") && (lower.includes("exist") || lower.includes("taken") || lower.includes("duplicate") || lower.includes("already"))) {
+                    message = "This email address is already registered. Please use a different email.";
+                    setFieldError("email", "Email already exists.");
+                } else if (lower.includes("phone") && (lower.includes("exist") || lower.includes("duplicate") || lower.includes("already"))) {
+                    message = "This phone number is already registered.";
+                    setFieldError("phoneNumber", "Phone number already exists.");
+                } else if (lower.includes("outlet") && (lower.includes("exist") || lower.includes("duplicate") || lower.includes("already"))) {
+                    message = "An outlet with this name already exists in your city.";
+                    setFieldError("outletName", "Outlet name already taken.");
+                } else if (raw) {
+                    message = raw;
+                }
+
+                showGlobalMessage(message, "error");
                 console.error(err);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btnText.textContent = "Submit";
+                spinner.classList.add("d-none");
             });
     });
 </script>

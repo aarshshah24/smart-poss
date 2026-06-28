@@ -2,158 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | SMART POSS</title>
+    <meta name="description" content="Smart POSS Admin Dashboard - Manage outlets, requests and users.">
     <link rel="icon" type="image/png" href="src/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark admin-navbar px-3">
-    <span class="navbar-brand fw-bold ms-2">SMART POSS • Admin</span>
+<!-- ── Navbar ── -->
+<nav class="admin-navbar">
+    <!-- Hamburger: only on mobile -->
+    <button class="sidebar-toggle" id="adminSidebarToggle"
+            data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvasSidebar"
+            aria-controls="adminOffcanvasSidebar" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+    </button>
+    <span class="navbar-brand fw-bold text-white">SMART POSS &bull; Admin</span>
+    <!-- Spacer so brand is centred on mobile -->
+    <span style="width:2rem;" class="d-md-none"></span>
 </nav>
 
+<!-- ── Mobile Offcanvas Sidebar ── -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="adminOffcanvasSidebar">
+    <div class="offcanvas-header">
+        <span class="offcanvas-title">Navigation</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ul class="nav flex-column mt-2">
+            <li><a class="nav-link active" href="#" onclick="showSection('dashboard',this);closeMobileSidebar()"><i class="bi bi-grid"></i> Dashboard</a></li>
+            <li><a class="nav-link" href="#" onclick="showSection('requests',this);closeMobileSidebar()"><i class="bi bi-inbox"></i> Outlet Requests</a></li>
+            <li><a class="nav-link" href="#" onclick="showSection('verifiedoutlet',this);closeMobileSidebar()"><i class="bi bi-patch-check"></i> Verified Outlets</a></li>
+            <li><a class="nav-link text-muted" href="#"><i class="bi bi-people"></i> Users</a></li>
+            <li><a class="nav-link text-muted" href="#"><i class="bi bi-bar-chart"></i> Reports</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- ── Page Layout ── -->
 <div class="container-fluid">
     <div class="row">
 
-        <!-- SIDEBAR -->
+        <!-- ── Desktop Sidebar ── -->
         <aside class="col-md-2 sidebar d-none d-md-block p-0">
             <ul class="nav flex-column mt-4">
-
-                <li><a class="nav-link active" href="#" onclick="showSection('dashboard',this)">Dashboard</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('requests',this)">Outlet Requests</a></li>
-                <li><a class="nav-link" href="#" onclick="showSection('verifiedoutlet',this)">Verified Outlets</a></li>
-                <li><a class="nav-link" href="#">Users</a></li>
-                <li><a class="nav-link" href="#">Reports</a></li>
-
+                <li><a class="nav-link active" id="desk-link-dashboard" href="#" onclick="showSection('dashboard',this)"><i class="bi bi-grid"></i> Dashboard</a></li>
+                <li><a class="nav-link" id="desk-link-requests" href="#" onclick="showSection('requests',this)"><i class="bi bi-inbox"></i> Outlet Requests</a></li>
+                <li><a class="nav-link" id="desk-link-verifiedoutlet" href="#" onclick="showSection('verifiedoutlet',this)"><i class="bi bi-patch-check"></i> Verified Outlets</a></li>
+                <li><a class="nav-link text-muted" href="#"><i class="bi bi-people"></i> Users</a></li>
+                <li><a class="nav-link text-muted" href="#"><i class="bi bi-bar-chart"></i> Reports</a></li>
             </ul>
         </aside>
 
+        <!-- ── Main Content ── -->
         <main class="col-md-10 main-content">
 
-            <!-- DASHBOARD -->
+            <!-- DASHBOARD SECTION -->
             <div id="dashboard">
 
-                <!-- STATS (NOW ONLY INSIDE DASHBOARD) -->
+                <!-- Stats -->
                 <div class="row g-3 mb-4">
-
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <h6>Total Outlets</h6>
+                            <h6><i class="bi bi-shop me-1"></i>Total Outlets</h6>
                             <h2 id="totalOutlets">0</h2>
                         </div>
                     </div>
-
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <h6>Pending Requests</h6>
+                            <h6><i class="bi bi-clock-history me-1"></i>Pending Requests</h6>
                             <h2 id="pendingOutlets">0</h2>
                         </div>
                     </div>
-
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <h6>Active Users</h6>
+                            <h6><i class="bi bi-people me-1"></i>Active Users</h6>
                             <h2 id="activeUsers">0</h2>
                         </div>
                     </div>
-
                     <div class="col-6 col-md-3">
                         <div class="stat-card">
-                            <h6>Revenue</h6>
+                            <h6><i class="bi bi-currency-rupee me-1"></i>Revenue</h6>
                             <h2>₹0</h2>
                         </div>
                     </div>
-
                 </div>
 
+                <!-- Latest Pending Table -->
                 <div class="card admin-card">
                     <div class="card-header fw-bold">Latest 5 Pending Outlets</div>
-
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover">
-
                             <thead>
                             <tr>
                                 <th>Owner</th>
                                 <th>Outlet</th>
-                                <th>City</th>
-                                <th>Contact</th>
+                                <th class="d-none d-sm-table-cell">City</th>
+                                <th class="d-none d-md-table-cell">Contact</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
-
                             <tbody id="dashboardTable"></tbody>
-
                         </table>
                     </div>
                 </div>
-
             </div>
 
-            <!-- REQUESTS -->
+            <!-- REQUESTS SECTION -->
             <div id="requests" class="d-none">
-
                 <div class="card admin-card mt-4">
                     <div class="card-header fw-bold">All Pending Requests</div>
-
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover">
-
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Owner</th>
                                 <th>Outlet</th>
-                                <th>City</th>
-                                <th>Contact</th>
+                                <th class="d-none d-sm-table-cell">City</th>
+                                <th class="d-none d-md-table-cell">Contact</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
-
                             <tbody id="requestsTable"></tbody>
-
                         </table>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Verified Outlet -->
+            <!-- VERIFIED OUTLETS SECTION -->
             <div id="verifiedoutlet" class="d-none">
-
                 <div class="card admin-card mt-4">
                     <div class="card-header fw-bold">Verified Outlets</div>
-
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover">
-
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Owner</th>
-                                            <th>Outlet</th>
-                                    <th>City</th>
-                                    <th>Verified On</th>
+                                    <th>Outlet</th>
+                                    <th class="d-none d-sm-table-cell">City</th>
+                                    <th class="d-none d-md-table-cell">Verified On</th>
                                 </tr>
                             </thead>
-
                             <tbody id="verifiedTable"></tbody>
-
                         </table>
                     </div>
                 </div>
-
             </div>
 
         </main>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="admin-dashboard.js"></script>
+<script>
+    // Close mobile offcanvas helper
+    function closeMobileSidebar() {
+        const el = document.getElementById('adminOffcanvasSidebar');
+        const instance = bootstrap.Offcanvas.getInstance(el);
+        if (instance) instance.hide();
+    }
+</script>
 
 </body>
 </html>

@@ -40,11 +40,11 @@ function renderDashboard(){
         <tr>
             <td>${o.ownerName}</td>
             <td>${o.outletName}</td>
-            <td>${o.city}</td>
-            <td>${o.phoneNumber}</td>
+            <td class="d-none d-sm-table-cell">${o.city}</td>
+            <td class="d-none d-md-table-cell">${o.phoneNumber}</td>
             <td>
-                <button class="btn btn-success btn-sm" onclick="approve('${o.id}')">Approve</button>
-                <button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">Reject</button>
+                <button class="btn btn-success btn-sm" onclick="approve('${o.id}')">✓</button>
+                <button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">✕</button>
             </td>
         </tr>`;
     });
@@ -59,11 +59,11 @@ function renderRequests(){
             <td>${i+1}</td>
             <td>${o.ownerName}</td>
             <td>${o.outletName}</td>
-            <td>${o.city}</td>
-            <td>${o.phoneNumber}</td>
+            <td class="d-none d-sm-table-cell">${o.city}</td>
+            <td class="d-none d-md-table-cell">${o.phoneNumber}</td>
             <td>
-                <button class="btn btn-success btn-sm" onclick="approve('${o.id}')">Approve</button>
-                <button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">Reject</button>
+                <button class="btn btn-success btn-sm" onclick="approve('${o.id}')">✓</button>
+                <button class="btn btn-danger btn-sm" onclick="reject('${o.id}')">✕</button>
             </td>
         </tr>`;
     });
@@ -86,8 +86,8 @@ function renderVerified(){
             <td>${i+1}</td>
             <td>${o.ownerName}</td>
             <td>${o.outletName}</td>
-            <td>${o.city}</td>
-            <td class="text-success fw-bold">${formattedDate}</td>
+            <td class="d-none d-sm-table-cell">${o.city}</td>
+            <td class="d-none d-md-table-cell text-success fw-bold">${formattedDate}</td>
         </tr>`;
     });
 }
@@ -109,17 +109,23 @@ function reject(id){
         });
 }
 
-function showSection(id,element){
-    document.querySelectorAll(".sidebar .nav-link").forEach(l=>{
+function showSection(id, element){
+    // Remove active from ALL sidebar nav links (both desktop & offcanvas)
+    document.querySelectorAll(".sidebar .nav-link, #adminOffcanvasSidebar .nav-link").forEach(l=>{
         l.classList.remove("active");
     });
-    element.classList.add("active");
 
-    document.getElementById("dashboard").classList.add("d-none");
-    document.getElementById("requests").classList.add("d-none");
-    document.getElementById("verifiedoutlet").classList.add("d-none");
+    // Mark the clicked link active
+    if (element) element.classList.add("active");
 
-    document.getElementById(id).classList.remove("d-none");
+    // Also sync the desktop sidebar counterpart
+    const deskLink = document.getElementById("desk-link-" + id);
+    if (deskLink) deskLink.classList.add("active");
+
+    // Show / hide sections
+    ["dashboard", "requests", "verifiedoutlet"].forEach(s => {
+        document.getElementById(s).classList.toggle("d-none", s !== id);
+    });
 
     if(id === "verifiedoutlet"){
         loadVerified();

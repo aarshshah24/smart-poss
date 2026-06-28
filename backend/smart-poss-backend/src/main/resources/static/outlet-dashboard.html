@@ -27,11 +27,30 @@
 </head>
 <body>
 
-<nav class="navbar outlet-navbar px-3">
-    <button class="btn d-md-none text-white" data-bs-toggle="offcanvas" data-bs-target="#outletSidebar"><i class="bi bi-list"></i></button>
-    <span class="navbar-brand fw-bold ms-2 outlet-title" id="outletName">Loading...</span>
+<nav class="navbar outlet-navbar px-3 d-flex align-items-center">
+    <button class="btn btn-link text-white p-0 d-md-none" style="font-size:1.5rem"
+            data-bs-toggle="offcanvas" data-bs-target="#outletSidebar"
+            aria-controls="outletSidebar" aria-label="Open sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+    <span class="navbar-brand fw-bold outlet-title" id="outletName">Loading...</span>
     <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
 </nav>
+
+<!-- Mobile Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="outletSidebar">
+    <div class="offcanvas-header">
+        <span class="offcanvas-title">Menu</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ul class="nav flex-column mt-2">
+            <li><a class="nav-link active" id="mob-link-dashboard" href="#" onclick="showSection('dashboard');closeMobileSidebar()"><i class="bi bi-grid"></i> Dashboard</a></li>
+            <li><a class="nav-link" id="mob-link-menu" href="#" onclick="showSection('menu');closeMobileSidebar()"><i class="bi bi-list-ul"></i> Menu</a></li>
+            <li><a class="nav-link" id="mob-link-orders" href="#" onclick="showSection('orders');closeMobileSidebar()"><i class="bi bi-cart-check"></i> Orders</a></li>
+        </ul>
+    </div>
+</div>
 
 <div class="container-fluid">
     <div class="row">
@@ -76,7 +95,12 @@
                     <div class="card-header fw-bold">Recent Orders</div>
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover align-middle">
-                            <thead><tr><th>OrderID</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+                            <thead><tr>
+                                <th>OrderID</th>
+                                <th>Customer</th>
+                                <th class="d-none d-sm-table-cell">Amount</th>
+                                <th>Status</th>
+                            </tr></thead>
                             <tbody id="recentOrdersBody"></tbody>
                         </table>
                     </div>
@@ -130,7 +154,13 @@
                 <div class="card outlet-card">
                     <div class="card-body table-responsive">
                         <table class="table table-dark table-hover">
-                            <thead><tr><th>ID</th><th>Customer</th><th>Phone</th><th>Total</th><th>Time</th></tr></thead>
+                            <thead><tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th class="d-none d-sm-table-cell">Phone</th>
+                                <th>Total</th>
+                                <th class="d-none d-md-table-cell">Time</th>
+                            </tr></thead>
                             <tbody id="orderList"></tbody>
                         </table>
                     </div>
@@ -206,12 +236,23 @@
     });
 
     function showSection(section) {
-        document.getElementById("dashboardSection").classList.add("d-none");
-        document.getElementById("menuSection").classList.add("d-none");
-        document.getElementById("ordersSection").classList.add("d-none");
-        document.getElementById(section + "Section").classList.remove("d-none");
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        document.getElementById("link-" + section)?.classList.add('active');
+        ["dashboard", "menu", "orders"].forEach(s => {
+            document.getElementById(s + "Section").classList.toggle("d-none", s !== section);
+        });
+        // Sync desktop sidebar
+        document.querySelectorAll('.outlet-sidebar .nav-link').forEach(link => link.classList.remove('active'));
+        const deskLink = document.getElementById("link-" + section);
+        if (deskLink) deskLink.classList.add('active');
+        // Sync mobile sidebar
+        document.querySelectorAll('#outletSidebar .nav-link').forEach(link => link.classList.remove('active'));
+        const mobLink = document.getElementById("mob-link-" + section);
+        if (mobLink) mobLink.classList.add('active');
+    }
+
+    function closeMobileSidebar() {
+        const el = document.getElementById('outletSidebar');
+        const instance = bootstrap.Offcanvas.getInstance(el);
+        if (instance) instance.hide();
     }
 
     // --- MENU LOGIC ---
@@ -261,6 +302,7 @@
         document.getElementById("btnCancelEdit").classList.remove("d-none");
     }
 
+    // Reset Menu Form
     function resetMenuForm() {
         document.getElementById("editItemId").value = "";
         document.getElementById("menuForm").reset();
@@ -349,9 +391,20 @@
                 document.getElementById("statTodayOrders").innerText = data.length;
                 document.getElementById("statRevenue").innerText = "₹" + data.reduce((a, b) => a + b.totalAmount, 0);
                 document.getElementById("orderList").innerHTML = data.map(o =>
-                    `<tr><td>${o.id.slice(-5)}</td><td>${o.customerName}</td><td>${o.contactNo}</td><td>₹${o.totalAmount}</td><td>${new Date(o.orderDate).toLocaleTimeString()}</td></tr>`).join('');
+                    `<tr>
+                        <td>${o.id.slice(-5)}</td>
+                        <td>${o.customerName}</td>
+                        <td class="d-none d-sm-table-cell">${o.contactNo}</td>
+                        <td>₹${o.totalAmount}</td>
+                        <td class="d-none d-md-table-cell">${new Date(o.orderDate).toLocaleTimeString()}</td>
+                    </tr>`).join('');
                 document.getElementById("recentOrdersBody").innerHTML = data.slice(0, 5).map(o =>
-                    `<tr><td>#${o.id.slice(-5)}</td><td>${o.customerName}</td><td>₹${o.totalAmount}</td><td><span class="badge bg-success">Paid</span></td></tr>`).join('');
+                    `<tr>
+                        <td>#${o.id.slice(-5)}</td>
+                        <td>${o.customerName}</td>
+                        <td class="d-none d-sm-table-cell">₹${o.totalAmount}</td>
+                        <td><span class="badge bg-success">Paid</span></td>
+                    </tr>`).join('');
             });
     }
 

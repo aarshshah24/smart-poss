@@ -4,27 +4,54 @@ body {
     margin: 0;
 }
 
-/* Navbar */
+/* ── Navbar ── */
 .admin-navbar {
-    height: 70px;
+    height: 60px;
     background: #000;
     border-bottom: 3px solid #ff7733;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
-/* Sidebar */
+.admin-navbar .navbar-brand {
+    font-size: 1.1rem;
+}
+
+/* Hamburger button shown only on mobile */
+.admin-navbar .sidebar-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+    padding: 0 0.5rem;
+}
+
+/* ── Sidebar ── */
 .sidebar {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 60px);
     background: #111;
+    transition: width 0.3s ease;
 }
 
 .sidebar .nav-link {
     color: #adb5bd;
     padding: 14px 20px;
     font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sidebar .nav-link i {
-    margin-right: 8px;
+    font-size: 1rem;
 }
 
 .sidebar .nav-link:hover,
@@ -33,12 +60,13 @@ body {
     color: #fff;
 }
 
-/* Main Content */
+/* ── Main Content ── */
 .main-content {
-    padding: 30px;
+    padding: 24px;
+    min-height: calc(100vh - 60px);
 }
 
-/* Stats Cards */
+/* ── Stats Cards ── */
 .stat-card {
     background: #343a40;
     border-radius: 12px;
@@ -48,14 +76,18 @@ body {
 
 .stat-card h6 {
     opacity: 0.8;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
 }
 
 .stat-card h2 {
     color: #ff7733;
     font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
-/* Admin Table Card */
+/* ── Admin Table Card ── */
 .admin-card {
     background: #343a40;
     border: none;
@@ -66,4 +98,86 @@ body {
     color: #fff;
     background: transparent;
     border-bottom: 1px solid #ff7733;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+}
+
+/* table font sizing on small screens */
+.table {
+    font-size: 0.9rem;
+}
+
+/* ── Offcanvas Sidebar (Mobile) ── */
+#adminOffcanvasSidebar {
+    background: #111 !important;
+    width: 240px;
+}
+
+#adminOffcanvasSidebar .offcanvas-header {
+    border-bottom: 1px solid #ff7733;
+    padding: 1rem;
+}
+
+#adminOffcanvasSidebar .offcanvas-title {
+    color: #ff7733;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+#adminOffcanvasSidebar .btn-close {
+    filter: invert(1);
+}
+
+#adminOffcanvasSidebar .nav-link {
+    color: #adb5bd;
+    padding: 14px 20px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#adminOffcanvasSidebar .nav-link:hover,
+#adminOffcanvasSidebar .nav-link.active {
+    background: #ff7733;
+    color: #fff;
+}
+
+/* ── Responsive Breakpoints ── */
+@media (max-width: 767.98px) {
+    .admin-navbar .sidebar-toggle {
+        display: block;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .stat-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .stat-card h6 {
+        font-size: 0.78rem;
+    }
+
+    /* Make table cells smaller on mobile */
+    .table th,
+    .table td {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.5rem;
+        white-space: nowrap;
+    }
+
+    .btn-sm {
+        font-size: 0.72rem;
+        padding: 0.2rem 0.45rem;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Hide offcanvas trigger button on desktop */
+    .admin-navbar .sidebar-toggle {
+        display: none;
+    }
 }
